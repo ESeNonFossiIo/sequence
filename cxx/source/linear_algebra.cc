@@ -12,9 +12,6 @@
 
 template <int dim, int spacedim>
 LinearAlgebra<dim,spacedim>::LinearAlgebra ()
-  :
-  (),
-  ()
 {}
 
 

@@ -17,7 +17,7 @@
 #include <cmath>
 #include <vector>
 #include <cstdlib>
-#include "linera_algebra.h"
+#include "linear_algebra.h"
 
 int main(int argc, char *argv[])
 {
