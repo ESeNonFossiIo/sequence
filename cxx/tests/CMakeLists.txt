@@ -1,11 +1,14 @@
 
 MESSAGE( " ===> Prepare tests " )
-
+INCLUDE_DIRECTORIES(.)
 # include( CTest )
 enable_testing()
 
-add_executable(void_test void.cc)
-add_test(void_test void_test)
+file(GLOB tests_sources *.cc)
+# add_executable(${tests_sources} ${tests_sources})
+
+add_executable(void_ void.cc)
+add_test(NAME Test COMMAND void_)
 # add_test(GLOB *.cc)
 
 MESSAGE( "Current dir = " ${CMAKE_CURRENT_SOURCE_DIR} )
@@ -14,7 +17,7 @@ MESSAGE( "Current dir = " ${CMAKE_CURRENT_SOURCE_DIR} )
 find_program (BASH_PROGRAM bash)
 
 if (BASH_PROGRAM)
-  add_test (mytest ${BASH_PROGRAM} ${CMAKE_CURRENT_SOURCE_DIR}/script.sh)
+  add_test (mytest ${BASH_PROGRAM} ${CMAKE_CURRENT_SOURCE_DIR}/script_test.sh)
 endif (BASH_PROGRAM)
 
 #
