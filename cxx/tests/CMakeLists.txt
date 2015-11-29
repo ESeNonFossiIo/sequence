@@ -1,24 +1,35 @@
 
-MESSAGE( " ===> Prepare tests " )
-INCLUDE_DIRECTORIES(.)
-# include( CTest )
+# http://stackoverflow.com/questions/3305545/how-to-adapt-my-unit-tests-to-cmake-and-ctest
+# https://cmake.org/pipermail/cmake/2011-September/046218.html
+
+# MESSAGE( " ===> Prepare tests " )
+# INCLUDE_DIRECTORIES(.)
+# # include( CTest )
+# enable_testing()
+#
+# file(GLOB tests_sources *.cc)
+# # add_executable(${tests_sources} ${tests_sources})
+#
+# add_executable(void_ tests_sources)
+# add_test(NAME Test COMMAND void_)
+# # add_test(GLOB *.cc)
+MESSAGE( "Current dir = " ${CMAKE_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR} )
+#
+#
+# find_program (BASH_PROGRAM bash)
+#
+# if (BASH_PROGRAM)
+#   add_test (mytest ${BASH_PROGRAM} ${CMAKE_CURRENT_SOURCE_DIR}/script_test.sh )
+# endif (BASH_PROGRAM)
+
+
 enable_testing()
-
-file(GLOB tests_sources *.cc)
-# add_executable(${tests_sources} ${tests_sources})
-
-add_executable(void_ void.cc)
-add_test(NAME Test COMMAND void_)
-# add_test(GLOB *.cc)
-
-MESSAGE( "Current dir = " ${CMAKE_CURRENT_SOURCE_DIR} )
-
-
-find_program (BASH_PROGRAM bash)
-
-if (BASH_PROGRAM)
-  add_test (mytest ${BASH_PROGRAM} ${CMAKE_CURRENT_SOURCE_DIR}/script_test.sh)
-endif (BASH_PROGRAM)
+add_executable(testprog void.cc)
+add_test(NAME runtestprog
+    COMMAND ${CMAKE_COMMAND}
+    -DTEST_PROG=$<TARGET_FILE:testprog>
+    -DSOURCEDIR=${CMAKE_CURRENT_SOURCE_DIR}/
+  -P ${CMAKE_CURRENT_SOURCE_DIR}/runtest.cmake)
 
 #
 # #-------------------------------------------------
