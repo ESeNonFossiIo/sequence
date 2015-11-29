@@ -35,3 +35,5 @@ COMMAND sequence-comparison
 DEPENDS sequence-comparison
 WORKING_DIRECTORY ${CMAKE_PROJECT_DIR}
 )
+
+add_subdirectory(tests)
