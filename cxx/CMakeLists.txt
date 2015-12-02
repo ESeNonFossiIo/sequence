@@ -34,3 +34,15 @@ add_custom_target(run
 
 include(CTest)
 add_subdirectory(tests)
+# add_executable(runtestprog ./tests/void.cc)
+# enable_testing()
+# add_test(NAME runtestprog_tmp COMMAND $<TARGET_FILE:runtestprog>)
+
+# macro (create_test target)
+  # add_test (NAME ${target} COMMAND $<TARGET_FILE:${target}>)
+# endmacro (create_test)
+
+#[some code]
+
+#test definition
+# create_test(ttest

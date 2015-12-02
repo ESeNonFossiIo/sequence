@@ -4,12 +4,12 @@
 # echo "1"
 function ciao()
 {
-  return 1
+  return 0
 }
 
 function ciao_no()
 {
-  return 0
+  return 1
 }
-
-false
+echo "%%%%%%%%%%%" $1
+true
