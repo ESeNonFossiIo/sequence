@@ -1,4 +1,5 @@
 
+SET(TEST_DIR ${CMAKE_SOURCE_DIR}/tests/)
 # http://stackoverflow.com/questions/3305545/how-to-adapt-my-unit-tests-to-cmake-and-ctest
 # https://cmake.org/pipermail/cmake/2011-September/046218.html
 
@@ -14,6 +15,8 @@
 # add_test(NAME Test COMMAND void_)
 # # add_test(GLOB *.cc)
 MESSAGE( "Current dir = " ${CMAKE_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR} )
+find_program(CTEST_GIT_COMMAND NAMES git)
+MESSAGE( "Current dir = " ${CTEST_GIT_COMMAND}  )
 #
 #
 # find_program (BASH_PROGRAM bash)
@@ -21,15 +24,56 @@ MESSAGE( "Current dir = " ${CMAKE_BINARY_DIR} ${CMAKE_CURRENT_SOURCE_DIR} )
 # if (BASH_PROGRAM)
 #   add_test (mytest ${BASH_PROGRAM} ${CMAKE_CURRENT_SOURCE_DIR}/script_test.sh )
 # endif (BASH_PROGRAM)
+MESSAGE( "->" ${CMAKE_PROJECT_NAME} "<-" )
+MESSAGE( "->" ${CMAKE_SOURCE_DIR} "<-" )
+file(GLOB sources "*.cc")
+foreach( prova ${sources})
+  MESSAGE( "->" ${prova} "<-" )
+endforeach()
+MESSAGE( "->" ${sources} "<-" )
 
-
+set(CTEST_OUTPUT_ON_FAILURE "1")
 enable_testing()
-add_executable(testprog void.cc)
+
+add_executable(runtestprog void.cc)
+# add_test(NAME runtestprog_tmp COMMAND $<TARGET_FILE:runtestprog>)
 add_test(NAME runtestprog
+    # WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/build/
+    # WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}
+    # WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/runtestprog/
     COMMAND ${CMAKE_COMMAND}
-    -DTEST_PROG=$<TARGET_FILE:testprog>
-    -DSOURCEDIR=${CMAKE_CURRENT_SOURCE_DIR}/
-  -P ${CMAKE_CURRENT_SOURCE_DIR}/runtest.cmake)
+    -DTESTS_DIR=${TEST_DIR}
+    -DTEST_PROG=$<TARGET_FILE:runtestprog>
+    # -DSOURCEDIR=${CMAKE_CURRENT_SOURCE_DIR}
+  -P ${TEST_DIR}/../cmake/tests/runtest.cmake)
+
+add_executable(runtestprog_2 ${TEST_DIR}/void_2.cc)
+add_test(NAME runtestprog_2
+    # WORKING_DIRECTORY ${CMAKE_SOURCE_DIR}/build/
+    # WORKING_DIRECTORY ${CMAKE_RUNTIME_OUTPUT_DIRECTORY}/runtestprog_2/
+    COMMAND ${CMAKE_COMMAND}
+    -DTESTS_DIR=${TEST_DIR}
+    -DTEST_PROG=$<TARGET_FILE:runtestprog_2>
+    # -DSOURCEDIR=${CMAKE_CURRENT_SOURCE_DIR}
+  -P ${TEST_DIR}/../cmake/tests/runtest.cmake)
+
+# MESSAGE( ${CMAKE_CURRENT_SOURCE_DIR} "--" ${CMAKE_COMMAND} )
+# enable_testing()
+# add_executable(testprog void.cc)
+# add_test(NAME runtestprog
+#     COMMAND ${CMAKE_CURRENT_SOURCE_DIR}
+#     -DTEST_PROG=$<TARGET_FILE:testprog>
+#     -DSOURCEDIR=${CMAKE_CURRENT_SOURCE_DIR}/
+#     -P${CMAKE_CURRENT_SOURCE_DIR}/runtest.cmake)
+#
+# add_test( testprog
+#     ${CMAKE_COMMAND}
+#     # -D TEST_PROGRAM=${CMAKE_BINARY_DIR}/hello${CMAKE_EXECUTABLE_SUFFIX}
+#     # -D TEST_ARGS=1
+#     -D TEST_OUTPUT=tmpfile.txt
+#     -D TEST_REFERENCE=${CMAKE_SOURCE_DIR}/testref.txt
+#     -P ${CMAKE_CURRENT_SOURCE_DIR}/runtest.cmake ) # To compare output to reference file
+#     # add_test( hello 1) # To perform memcheck tests
 
 #
 # #-------------------------------------------------
