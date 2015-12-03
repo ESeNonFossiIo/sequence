@@ -10,13 +10,15 @@ include_directories(${MPI_INCLUDE_PATH})
 target_link_libraries(sequence-comparison ${MPI_LIBRARIES})
 
 if(MPI_COMPILE_FLAGS)
-  set_target_properties(sequence-comparison PROPERTIES
-  COMPILE_FLAGS "${MPI_COMPILE_FLAGS}")
+  set_target_properties(  sequence-comparison
+    PROPERTIES COMPILE_FLAGS "${MPI_COMPILE_FLAGS}"
+  )
 endif()
 
 if(MPI_LINK_FLAGS)
-  set_target_properties(sequence-comparison PROPERTIES
-  LINK_FLAGS "${MPI_LINK_FLAGS}")
+  set_target_properties(  sequence-comparison
+    PROPERTIES LINK_FLAGS "${MPI_LINK_FLAGS}"
+  )
 endif()
 
 # find_package(OpenMP)
@@ -25,15 +27,15 @@ endif()
 #   set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
 # endif()
 
-
 add_custom_target(run
   COMMAND sequence-comparison
   DEPENDS sequence-comparison
   WORKING_DIRECTORY ${CMAKE_PROJECT_DIR}
 )
 
-include(CTest)
+# include(CTest)
 add_subdirectory(tests)
+#
 # add_executable(runtestprog ./tests/void.cc)
 # enable_testing()
 # add_test(NAME runtestprog_tmp COMMAND $<TARGET_FILE:runtestprog>)
