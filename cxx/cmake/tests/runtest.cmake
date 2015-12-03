@@ -18,7 +18,7 @@ endif()
 # -> DIFF CHECK
 ################################################################################
 execute_process(
-  COMMAND ${TESTS_DIR}/script_diff.sh ${TEST_NAME}.output /Users/esenonfossiio/git/project/sequence-comparison/cxx/build/tests/output
+  COMMAND ${TESTS_DIR}/script_diff.sh ${TEST_NAME}.output ${TEST_DIR}/output
   RESULT_VARIABLE DIFFERENT
 )
 
