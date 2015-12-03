@@ -1,4 +1,4 @@
-MESSAGE( "----- > " ../${TESTS_DIR} "###" ${TEST_PROG} ${NAME} )
+# MESSAGE( "----- > " ../${TESTS_DIR} "###" ${TEST_PROG} ${NAME} )
 
 execute_process(
   COMMAND ${TEST_PROG}
@@ -7,7 +7,6 @@ execute_process(
 )
 
 FILE ( WRITE output ${OUTFILE} )
-MESSAGE ( "---->" ${TEST_PROG} "--" ${OUTFILE} )
 
 if(HAD_ERROR)
   message(FATAL_ERROR " [ Test failed - no run ] ")
@@ -19,7 +18,7 @@ endif()
 # -> DIFF CHECK
 ################################################################################
 execute_process(
-  COMMAND ${TESTS_DIR}/script_test.sh ${OUTFILE}
+  COMMAND ${TESTS_DIR}/script_diff.sh ${TEST_NAME}.output /Users/esenonfossiio/git/project/sequence-comparison/cxx/build/tests/output
   RESULT_VARIABLE DIFFERENT
 )
 

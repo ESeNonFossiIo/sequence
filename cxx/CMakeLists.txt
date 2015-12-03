@@ -33,18 +33,5 @@ add_custom_target(run
   WORKING_DIRECTORY ${CMAKE_PROJECT_DIR}
 )
 
-# include(CTest)
-add_subdirectory(tests)
-#
-# add_executable(runtestprog ./tests/void.cc)
-# enable_testing()
-# add_test(NAME runtestprog_tmp COMMAND $<TARGET_FILE:runtestprog>)
-
-# macro (create_test target)
-  # add_test (NAME ${target} COMMAND $<TARGET_FILE:${target}>)
-# endmacro (create_test)
-
-#[some code]
-
-#test definition
-# create_test(ttest
+ENABLE_TESTING()
+ADD_SUBDIRECTORy(tests)
