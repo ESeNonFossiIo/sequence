@@ -17,3 +17,8 @@ FOREACH( prova ${sources})
     -DTEST_PROG=$<TARGET_FILE:${NAME}>
     -P ${CMAKE_TEST_DIR}/runtest.cmake)
 ENDFOREACH()
+
+# TODO:
+#   - use macro
+#   - change working Directory
+#   - set diff script
