@@ -1,6 +1,8 @@
-# MESSAGE( "----- > " ../${TESTS_DIR} "###" ${TEST_PROG} ${NAME} )
 
-execute_process(
+################################################################################
+# -> RUN CHECK
+################################################################################
+EXECUTE_PROCESS(
   COMMAND ${TEST_PROG}
   OUTPUT_VARIABLE OUTFILE
   RESULT_VARIABLE HAD_ERROR
@@ -8,20 +10,20 @@ execute_process(
 
 FILE ( WRITE output ${OUTFILE} )
 
-if(HAD_ERROR)
-  message(FATAL_ERROR " [ Test failed - no run ] ")
-else()
-  message( " -> Test compiled" )
-endif()
+IF(HAD_ERROR)
+  MESSAGE(FATAL_ERROR " [ Test failed - no run ] ")
+ELSE()
+  MESSAGE( " -> Test compiled" )
+ENDIF()
 
 ################################################################################
 # -> DIFF CHECK
 ################################################################################
-execute_process(
-  COMMAND ${TESTS_DIR}/../cmake/scripts/script_diff.sh ${TEST_NAME}.output ${TEST_DIR}/output
+EXECUTE_PROCESS(
+  COMMAND ${TESTS_DIR}/../cmake/scripts/script_dIFf.sh ${TEST_NAME}.output ${TEST_DIR}/output
   RESULT_VARIABLE DIFFERENT
 )
 
-if(DIFFERENT)
-    message(FATAL_ERROR " [ Test failed - files differ ] ")
-endif()
+IF(DIFFERENT)
+  MESSAGE(FATAL_ERROR " [ Test failed - files differ ] ")
+ENDIF()
