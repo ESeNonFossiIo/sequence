@@ -18,7 +18,7 @@ endif()
 # -> DIFF CHECK
 ################################################################################
 execute_process(
-  COMMAND ${TESTS_DIR}/script_diff.sh ${TEST_NAME}.output ${TEST_DIR}/output
+  COMMAND ${TESTS_DIR}/../cmake/scripts/script_diff.sh ${TEST_NAME}.output ${TEST_DIR}/output
   RESULT_VARIABLE DIFFERENT
 )
 
