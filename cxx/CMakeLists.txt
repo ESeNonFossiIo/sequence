@@ -1,37 +1,54 @@
-cmake_minimum_required(VERSION 2.8)
-
-project (sequence-comparison)
-file(GLOB cc_files source/*.cc)
-include_directories(include)
-add_executable(sequence-comparison ${cc_files})
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 
 
-find_package(MPI REQUIRED)
-include_directories(${MPI_INCLUDE_PATH})
+PROJECT(sequence-comparison)
+FILE(GLOB cc_files source/*.cc)
+INCLUDE_DIRECTORIES(include)
+ADD_EXECUTABLE(sequence-comparison ${cc_files})
 
-target_link_libraries(sequence-comparison ${MPI_LIBRARIES})
+FIND_PACKAGE(MPI REQUIRED)
+INCLUDE_DIRECTORIES(${MPI_INCLUDE_PATH})
+TARGET_LINK_LIBRARIES(sequence-comparison ${MPI_LIBRARIES})
 
-if(MPI_COMPILE_FLAGS)
-set_target_properties(sequence-comparison PROPERTIES
-COMPILE_FLAGS "${MPI_COMPILE_FLAGS}")
-endif()
+IF(MPI_COMPILE_FLAGS)
+  SET_TARGET_PROPERTIES(  sequence-comparison
+    PROPERTIES COMPILE_FLAGS "${MPI_COMPILE_FLAGS}"
+  )
+ENDIF()
 
-if(MPI_LINK_FLAGS)
-set_target_properties(sequence-comparison PROPERTIES
-LINK_FLAGS "${MPI_LINK_FLAGS}")
-endif()
+IF(MPI_LINK_FLAGS)
+  SET_TARGET_PROPERTIES(  sequence-comparison
+    PROPERTIES LINK_FLAGS "${MPI_LINK_FLAGS}"
+  )
+ENDIF()
 
+# FIND_PACKAGE(OpenMP)
+# if (OPENMP_FOUND)
+#   set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+#   set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+# ENDIF()
 
-find_package(OpenMP)
-if (OPENMP_FOUND)
-set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
-set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
-endif()
-
-
-add_custom_target(run
-COMMAND sequence-comparison
-DEPENDS sequence-comparison
-WORKING_DIRECTORY ${CMAKE_PROJECT_DIR}
+ADD_CUSTOM_TARGET(run
+  COMMAND sequence-comparison
+  DEPENDS sequence-comparison
+  WORKING_DIRECTORY ${CMAKE_PROJECT_DIR}
 )
+
+OPTION(ENABLE_TESTS "Enable testing" OFF)
+IF (ENABLE_TESTS STREQUAL ON)
+  ENABLE_TESTING()
+  ADD_SUBDIRECTORY(tests)
+ENDIF()
+
+ADD_CUSTOM_TARGET(debug
+  COMMAND ${CMAKE_COMMAND} -DCMAKE_BUILD_TYPE=Debug ${CMAKE_SOURCE_DIR}
+  COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} --target all
+  COMMENT "Switch CMAKE_BUILD_TYPE to Debug"
+  )
+
+ADD_CUSTOM_TARGET(release
+  COMMAND ${CMAKE_COMMAND} -DCMAKE_BUILD_TYPE=Release ${CMAKE_SOURCE_DIR}
+  COMMAND ${CMAKE_COMMAND} --build ${CMAKE_BINARY_DIR} --target all
+  COMMENT "Switch CMAKE_BUILD_TYPE to Release"
+  )
