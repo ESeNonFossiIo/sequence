@@ -36,6 +36,18 @@ Permutation::switch_elements(unsigned int i, unsigned int j)
   sequence[j] = tmp;
 }
 
+unsigned int &
+Permutation::operator()(const unsigned int i)
+{
+  return sequence[i];
+};
+
+unsigned int &
+Permutation::operator[](const unsigned int i)
+{
+  return sequence[i];
+};
+
 void
 Permutation::print()
 {

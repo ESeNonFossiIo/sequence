@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <vector>
+#include "permutation.h"
 
 /**
  *  Matrix Class is a generic structure to store data in matrix form
@@ -25,7 +26,7 @@ public:
    *  Output of the matrix
    */
   void
-  print ();
+  print (Permutation p_row, Permutation p_col);
 
 private:
   /**

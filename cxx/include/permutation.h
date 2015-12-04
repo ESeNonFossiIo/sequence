@@ -31,6 +31,12 @@ public:
    */
   void print();
 
+  /**
+   * Access to the element @p i
+   */
+  unsigned int &operator()(const unsigned int i);
+  unsigned int &operator[](const unsigned int i);
+
 private:
   /**
    * Total number of elements
