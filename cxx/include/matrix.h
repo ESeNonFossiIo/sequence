@@ -24,6 +24,12 @@ class Matrix
     void
     add_one (unsigned int i, unsigned int j);
 
+    /**
+     *  Output of the matrix
+     */
+    void
+    print ();
+
   private:
     /**
      *  Matrix

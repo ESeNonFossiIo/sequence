@@ -6,13 +6,7 @@
  * time: 18:34:45
  */
 
-#include "matrix.h"
-
 int main(int argc, char *argv[])
 {
-  Matrix m(2,2);
-  m.add_one(1,1);
-  m.add_one(1,1);
-  m.add_one(3,3);
-  m.print();
+  return 0;
 }
