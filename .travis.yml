@@ -1,0 +1,45 @@
+sudo: false
+cache:
+  apt: true
+  directories:
+    - programs
+notifications:
+  email: false
+
+addons:
+  apt:
+    sources:
+      - ubuntu-toolchain-r-test
+      - llvm-toolchain-precise-3.6
+    packages:
+      - build-essential
+      - libblas-dev
+      - liblapack-dev
+      - libboost-dev
+      - clang-3.6
+      - gfortran
+      - doxygen
+      - graphviz
+
+language: cpp
+compiler: clang
+
+before_install:
+  - ./scripts/setup_astyle.sh
+  - export PATH=$PWD/programs/astyle/build/gcc/bin:$PATH
+  - ./scripts/check_indentation.sh
+
+install:
+  - export PRG=$PWD/programs
+  - export CASA=$PWD
+  - export CXX=clang++-3.6
+  - export PATH=$PWD/programs/cmake/bin:$PATH
+  - export PATH=$PWD/programs/ninja:$PATH
+  - ./scripts/set_cache.sh
+  - mkdir build
+  - cd build
+  - cmake -GNinja ..
+  
+script:
+  - ctest -j4 -V -R "${BUILD_TYPE,,}"
+   
