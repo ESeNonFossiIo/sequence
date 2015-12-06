@@ -17,58 +17,69 @@ public:
   Permutation(unsigned int num);
 
   /**
-   * Add an element to the permutation
+   * Add an element to the permutation.
    */
-  void add_an_element();
+  void new_element();
 
   /**
-   * Switch element @p i and element @p j
+   * Switch element @p i and element @p j.
    */
   void switch_elements(unsigned int i, unsigned int j);
 
   /**
-   * Print permutation
+   * Print permutation.
    */
-  void print();
+  void print(bool sequence = true, bool length = false);
 
   /**
-   * Access to the element @p i
+   * Access to the element @p i.
    */
   unsigned int &operator()(const unsigned int i);
   unsigned int &operator[](const unsigned int i);
 
-private:
+protected:
   /**
-   * Total number of elements
+   * Total number of elements.
    */
   unsigned int tot;
 
+private:
   /**
-   * Current permutation
+   * Current permutation.
    */
   std::vector<unsigned int> sequence;
 };
 
 /**
- * GPermutation. Generalize the Permutation class and associate to each number
- * an element of a generic typename T
+ * GPermutation. Generalize the Permutation class and associate to each number.
+ * an element of a generic typename T.
  */
-template<typename T>
 class GPermutation : public Permutation
 {
 public:
   GPermutation();
 
   /**
-   * Add an element @p element of type T to the sequence
+   * Add an element @p element of type T to the sequence.
    */
-  void add_an_element(T element);
+  void add_an_element(char element);
+
+  /**
+   * Print permutation.
+   */
+  void print_elements();
 
 private:
   /**
-   * Associate to each number of the sequence an element
+   * Associate to each number of the sequence an element.
    */
-  std::map<unsigned int, T> sequence_map;
+  std::map<unsigned int, char> sequence_map;
+
+  /**
+   * Associate to each element the linked number.
+   * This map is a kind of inverse of @p sequence_map.
+   */
+  std::map<char, unsigned int> key_map;
 };
 
 #endif

@@ -16,7 +16,7 @@ int main(int argc, char *argv[])
   p.print();
   std::cout << "Add an element:"
             << std::endl;
-  p.add_an_element();
+  p.new_element();
   p.print();
   std::cout << "Permute the element in position"
             << std::endl

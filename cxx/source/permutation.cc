@@ -4,12 +4,14 @@
  * time: 18:34:45
  */
 
-#include <iostream>     // std::cout, std::endl
-#include <iomanip>      // std::setw
 #include <vector>
 #include <cmath>
-#include "permutation.h"
 #include <assert.h>
+
+#include "utilities.h"
+#include "permutation.h"
+
+
 
 Permutation::Permutation( unsigned int num )
   :
@@ -20,7 +22,7 @@ Permutation::Permutation( unsigned int num )
 }
 
 void
-Permutation::add_an_element()
+Permutation::new_element()
 {
   sequence.push_back(tot);
   ++tot;
@@ -49,35 +51,48 @@ Permutation::operator[](const unsigned int i)
 };
 
 void
-Permutation::print()
+Permutation::print(bool show_sequence, bool show_length)
 {
-  if(tot==0)
-  {
-  std::cout << "=================================================="<< std::endl;
-  std::cout << " Empty permutation" << std::endl;
-    std::cout << "=================================================="<< std::endl;
-    return;
-  }
+  if (tot==0)
+    print_msg("Empty permutation");
   else
-  {
-  std::cout << "=================================================="<< std::endl;
-  std::cout << " Sequence Length:   " << tot << std::endl;
-  std::cout << " Sequence:          <";
-  for (unsigned int i = 0; i<tot-1; ++i)
-    std::cout << std::setw(2) << sequence[i] << "," ;
-  std::cout << std::setw(2) << sequence[tot-1] << " >" << std::endl;
-  std::cout << "=================================================="<< std::endl;
-}
+    {
+      if (show_length)
+        print_msg("Sequence Length:   "+std::to_string(tot));
+      if (show_sequence)
+        {
+          print_sequence<unsigned int>(sequence);
+        }
+    }
 }
 
-template<typename T>
-GPermutation<T>::GPermutation()
-:
-Permutation(0)
+GPermutation::GPermutation()
+  :
+  Permutation(0)
 {}
 
+void
+GPermutation::add_an_element(char element)
+{
+  if (!key_map.count(element))
+    {
+      sequence_map[tot] = element;
+      key_map[element] = tot;
+      new_element();
+    }
+  else
+    print_msg("This element is alreary present");
+  return;
+}
 
-
-//The explicit instantiation:
-template class GPermutation<char>;
-template class GPermutation<int>;
+void
+GPermutation::print_elements()
+{
+  if (tot==0)
+    print_msg("Empty permutation");
+  else
+    {
+      print_msg(" Sequence Length:   " + std::to_string(tot));
+      print_map<unsigned int, char>(sequence_map, 3);
+    }
+}
