@@ -51,6 +51,15 @@ Permutation::operator[](const unsigned int i)
 void
 Permutation::print()
 {
+  if(tot==0)
+  {
+  std::cout << "=================================================="<< std::endl;
+  std::cout << " Empty permutation" << std::endl;
+    std::cout << "=================================================="<< std::endl;
+    return;
+  }
+  else
+  {
   std::cout << "=================================================="<< std::endl;
   std::cout << " Sequence Length:   " << tot << std::endl;
   std::cout << " Sequence:          <";
@@ -58,6 +67,7 @@ Permutation::print()
     std::cout << std::setw(2) << sequence[i] << "," ;
   std::cout << std::setw(2) << sequence[tot-1] << " >" << std::endl;
   std::cout << "=================================================="<< std::endl;
+}
 }
 
 template<typename T>
