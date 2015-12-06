@@ -49,4 +49,26 @@ private:
   std::vector<unsigned int> sequence;
 };
 
+/**
+ * GPermutation. Generalize the Permutation class and associate to each number
+ * an element of a generic typename T
+ */
+template<typename T>
+class GPermutation : public Permutation
+{
+public:
+  GPermutation();
+
+  /**
+   * Add an element @p element of type T to the sequence
+   */
+  void add_an_element(T element);
+
+private:
+  /**
+   * Associate to each number of the sequence an element
+   */
+  std::map<unsigned int, T> sequence_map;
+};
+
 #endif

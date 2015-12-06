@@ -59,7 +59,3 @@ Matrix::print (Permutation p_row, Permutation p_col)
     std::cout << "+" << "---";
   std::cout << "+" << std::endl;
 }
-
-// //The explicit instantiation:
-// template class myTemplate<char>;
-// template class myTemplate<float>;

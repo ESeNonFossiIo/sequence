@@ -59,3 +59,15 @@ Permutation::print()
   std::cout << std::setw(2) << sequence[tot-1] << " >" << std::endl;
   std::cout << "=================================================="<< std::endl;
 }
+
+template<typename T>
+GPermutation<T>::GPermutation()
+:
+Permutation(0)
+{}
+
+
+
+//The explicit instantiation:
+template class GPermutation<char>;
+template class GPermutation<int>;
