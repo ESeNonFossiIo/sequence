@@ -9,6 +9,7 @@
 #include <vector>
 #include <cmath>
 #include "matrix.h"
+#include "utilities.h"
 
 Matrix::Matrix(unsigned int rows, unsigned int cols)
   :
@@ -41,10 +42,11 @@ Matrix::add_one(unsigned int i, unsigned int j)
 void
 Matrix::print (Permutation p_row, Permutation p_col)
 {
-  std::cout << "=================================================="<< std::endl;
-  std::cout << " Number of Rows:      " << n_row << std::endl;
-  std::cout << " Number of Coloumns:  " << n_col << std::endl;
-  std::cout << "=================================================="<< std::endl;
+  std::vector<std::string> msg;
+  msg.push_back(" Number of Rows:      "+std::to_string(n_row));
+  msg.push_back(" Number of Coloumns:  "+std::to_string(n_col));
+  print_msg(msg);
+
   std::cout << std::endl << std::endl;
   for (unsigned int i = 0; i < n_row; ++i)
     {
