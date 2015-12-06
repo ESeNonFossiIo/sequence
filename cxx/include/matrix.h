@@ -23,10 +23,19 @@ public:
   add_one (unsigned int i, unsigned int j);
 
   /**
+   *  Permute the matrix according to the Permutation @p p and
+   *  evaluate the trace.
+   *  If the bool @p row is set on true the Permutation is made
+   *  on the rows, otherwise on coloumns.
+   */
+  unsigned int
+  trace (Permutation p_row, Permutation p_col);
+
+  /**
    *  Output of the matrix.
    */
   void
-  print (Permutation p_row, Permutation p_col);
+  print (Permutation p_row, Permutation p_col, bool report = true);
 
 private:
   /**
@@ -43,6 +52,16 @@ private:
    *  Number of coloumns.
    */
   unsigned int n_col;
+};
+
+/**
+ *  Hungarian Matrix Class is data in matrix form to solve
+ *  a maximize trace problem.
+ */
+class HungarianMatrix : public Matrix
+{
+public:
+  HungarianMatrix();
 };
 
 #endif

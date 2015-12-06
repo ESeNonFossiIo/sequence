@@ -39,13 +39,28 @@ Matrix::add_one(unsigned int i, unsigned int j)
   mat[i][j]++;
 }
 
-void
-Matrix::print (Permutation p_row, Permutation p_col)
+unsigned int
+Matrix::trace (Permutation p_row, Permutation p_col)
 {
-  std::vector<std::string> msg;
-  msg.push_back(" Number of Rows:      "+std::to_string(n_row));
-  msg.push_back(" Number of Coloumns:  "+std::to_string(n_col));
-  print_msg(msg);
+  unsigned int result=0;
+  unsigned int max_minor = ( n_col>n_row ? n_row : n_col );
+
+  for (unsigned int i=0; i<max_minor; ++i)
+    result+=mat[p_row[i]][p_col[i]];
+
+  return result;
+}
+
+void
+Matrix::print (Permutation p_row, Permutation p_col, bool report)
+{
+  if (report)
+    {
+      std::vector<std::string> msg;
+      msg.push_back(" Number of Rows:      "+std::to_string(n_row));
+      msg.push_back(" Number of Coloumns:  "+std::to_string(n_col));
+      print_msg(msg);
+    }
 
   std::cout << std::endl << std::endl;
   for (unsigned int i = 0; i < n_row; ++i)
