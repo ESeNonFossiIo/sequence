@@ -37,12 +37,7 @@ public:
   void
   print (Permutation p_row, Permutation p_col, bool report = true);
 
-private:
-  /**
-   *  Matrix.
-   */
-  std::vector<std::vector<unsigned int> > mat;
-
+protected:
   /**
    *  Number of rows.
    */
@@ -52,16 +47,30 @@ private:
    *  Number of coloumns.
    */
   unsigned int n_col;
+
+  /**
+   *  Matrix.
+   */
+  std::vector<std::vector<unsigned int> > mat;
 };
 
 /**
- *  Hungarian Matrix Class is data in matrix form to solve
+ *  Hungarian Matrix Class stores data in matrix form to solve
  *  a maximize trace problem.
  */
-class HungarianMatrix : public Matrix
+class HMatrix : public Matrix
 {
 public:
-  HungarianMatrix();
+  HMatrix(unsigned int rows, unsigned int cols);
+
+  void
+  first_step(Permutation p_row, Permutation p_col, bool row = true);
+
+private:
+  /**
+   *  Resulting matrix.
+   */
+  std::vector<std::vector<unsigned int> > res;
 };
 
 #endif

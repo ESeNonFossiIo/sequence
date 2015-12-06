@@ -76,3 +76,37 @@ Matrix::print (Permutation p_row, Permutation p_col, bool report)
     std::cout << "+" << "---";
   std::cout << "+" << std::endl;
 }
+
+HMatrix::HMatrix(unsigned int rows, unsigned int cols)
+  :
+  Matrix(rows,cols)
+{}
+
+void
+HMatrix::first_step(Permutation p_row, Permutation p_col, bool row)
+{
+  if (row)
+    {
+      for (unsigned int i = 0; i<n_row; ++i)
+        {
+          unsigned int min = mat[p_row[i]][p_col[0]];
+          for (unsigned int j = 1; j<n_col; ++j)
+            if (mat[p_row[i]][p_col[j]]<min)
+              min=mat[p_row[i]][p_col[j]];
+          for (unsigned int j = 0; j<n_col; ++j)
+            mat[p_row[i]][p_col[j]]-=min;
+        }
+    }
+  else
+    {
+      for (unsigned int j = 0; j<n_col; ++j)
+        {
+          unsigned int min = mat[p_row[0]][p_col[j]];
+          for (unsigned int i = 0; i<n_row; ++i)
+            if (mat[p_row[i]][p_col[j]]<min)
+              min=mat[p_row[i]][p_col[j]];
+          for (unsigned int i = 0; i<n_row; ++i)
+            mat[p_row[i]][p_col[j]]-=min;
+        }
+    }
+}
