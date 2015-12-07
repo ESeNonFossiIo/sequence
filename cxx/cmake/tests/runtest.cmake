@@ -20,7 +20,7 @@ ENDIF()
 # -> DIFF CHECK
 ################################################################################
 EXECUTE_PROCESS(
-  COMMAND ${TESTS_DIR}/../cmake/scripts/script_dIFf.sh ${TEST_NAME}.output ${TEST_DIR}/output
+  COMMAND ${TESTS_DIR}/../cmake/scripts/script_diff.sh ${TEST_NAME}.output ${TEST_DIR}/output
   RESULT_VARIABLE DIFFERENT
 )
 

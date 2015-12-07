@@ -1,98 +1,76 @@
-#include <stdio.h>
+#ifndef __matrix_h__
+#define __matrix_h__
+
 #include <stdlib.h>
 #include <vector>
-#include <map>
-#include <iostream>
+#include "permutation.h"
 
-template <typename T>
-class hungarian_matrix
+/**
+ *  Matrix Class is a generic structure to store data in matrix form.
+ */
+class Matrix
 {
-private:
-  size_t n_row;
-  size_t n_col;
-  std::vector< std::vector<T> > m;
-  std::map<int, size_t> map1;
-  std::map<int, size_t> map2;
-public:  
-  hungarian_matrix()
-  {
-    m.resize(1);
-    m[0].resize(1);
-    n_row = 0;
-    n_col = 0;
-  }
- 
-  void insert(int i, int j, T x)
-  {
-    // update the index maps (which translate each input label 
-    // into a matrix index) and resize the matrix
-    if(!map2.count(j))
-    {
-      // add new index
-      size_t n = map2.size();
-      map2[j] = n;
-      // add a column to the matrix
-      ++n_col;
-      for(size_t k=0; k<m.size(); ++k) m[k].resize(n_col);
-    }
-    if(!map1.count(i)) 
-    {  
-      // add new index
-      size_t n = map1.size();
-      map1[i] = n;
-      // add a row to the matrix
-      ++n_row;
-      m.resize(n_row);
-      m[n_row-1].resize(n_col);
-    }
-    // fill the matrix
-    m[map1[i]][map2[j]] = x;
-  }
+public:
+  /**
+   * Constructor takes the number of rows and coloumns.
+   */
+  Matrix (unsigned int rows, unsigned int cols);
 
-  size_t row_map(int i) 
-  {
-    if(!map1.count(i))
-    {
-      std::cerr << "hungarian_matrix: row_map() couldn't find label " << i << std::endl;
-      exit(1);
-    }
-    return map1[i];
-  }
+  /**
+   *  Add one to the element in position @p i and @p j.
+   */
+  void
+  add_one (unsigned int i, unsigned int j);
 
-  size_t column_map(int i) 
-  {
-    if(!map2.count(i))
-    {
-      std::cerr << "hungarian_matrix: column_map() couldn't find label " << i << std::endl;
-      exit(1);
-    }
-    return map2[i];
-  }
+  /**
+   *  Permute the matrix according to the Permutation @p p and
+   *  evaluate the trace.
+   *  If the bool @p row is set on true the Permutation is made
+   *  on the rows, otherwise on coloumns.
+   */
+  unsigned int
+  trace (Permutation p_row, Permutation p_col);
 
-  T operator() (int i, int j)
-  {
-    row_map(i);
-    column_map(j);
-    return m[map1[i]][map2[j]];
-  }
+  /**
+   *  Output of the matrix.
+   */
+  void
+  print (Permutation p_row, Permutation p_col, bool report = true);
 
-  void row_swap(int i, int j)
-  {
-    row_map(i);
-    row_map(j);
-    int tmp = map1[i];
-    map1[i] = map1[j];
-    map1[j] = tmp;
-  }
+protected:
+  /**
+   *  Number of rows.
+   */
+  unsigned int n_row;
 
-  void column_swap(int i, int j)
-  {
-    column_map(i);
-    column_map(j);
-    int tmp = map2[i];
-    map2[i] = map2[j];
-    map2[j] = tmp;
-  }
+  /**
+   *  Number of coloumns.
+   */
+  unsigned int n_col;
 
+  /**
+   *  Matrix.
+   */
+  std::vector<std::vector<unsigned int> > mat;
 };
 
+/**
+ *  Hungarian Matrix Class stores data in matrix form to solve
+ *  a maximize trace problem.
+ */
+class HMatrix : public Matrix
+{
+public:
+  HMatrix(unsigned int rows, unsigned int cols);
+
+  void
+  first_step(Permutation p_row, Permutation p_col, bool row = true);
+
+private:
+  /**
+   *  Resulting matrix.
+   */
+  std::vector<std::vector<unsigned int> > res;
+};
+
+#endif
