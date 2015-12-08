@@ -4,6 +4,9 @@ CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
 
 PROJECT(sequence-comparison)
 
+# Require C++11:
+SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
+
 FILE(GLOB cc_files source/*.cc)
 FILE(GLOB exec main/*.cc)
 

@@ -7,7 +7,8 @@
 #include <vector>
 #include <cmath>
 #include <assert.h>
-
+#include <iomanip>      // std::setw
+#include <utility>      // std::swap
 #include "utilities.h"
 #include "permutation.h"
 
@@ -21,6 +22,19 @@ Permutation::Permutation( unsigned int num )
     sequence.push_back(i);
 }
 
+Permutation::Permutation( unsigned int num, std::vector<unsigned int> sequence )
+  :
+  tot(num),
+  sequence(sequence)
+{}
+
+
+Permutation::Permutation(const Permutation &p)
+  :
+  tot(p.tot),
+  sequence(p.sequence)
+{};
+
 void
 Permutation::new_element()
 {
@@ -33,9 +47,7 @@ Permutation::switch_elements(unsigned int i, unsigned int j)
 {
   assert(("i can not be greater than " + std::to_string(tot), i < tot));
   assert(("j can not be greater than " + std::to_string(tot), j < tot));
-  auto tmp = sequence[i];
-  sequence[i] = sequence[j];
-  sequence[j] = tmp;
+  std::swap(sequence[i],sequence[j]);
 }
 
 unsigned int &
@@ -47,52 +59,85 @@ Permutation::operator()(const unsigned int i)
 unsigned int &
 Permutation::operator[](const unsigned int i)
 {
+  // const return_value = sequence[i];
   return sequence[i];
 };
 
 void
-Permutation::print(bool show_sequence, bool show_length)
+Permutation::status()
 {
   if (tot==0)
     print_msg("Empty permutation");
   else
-    {
-      if (show_length)
-        print_msg("Sequence Length:   "+std::to_string(tot));
-      if (show_sequence)
-        {
-          print_sequence<unsigned int>(sequence);
-        }
-    }
+    print_msg("Sequence Length:   "+std::to_string(tot));
 }
 
-GPermutation::GPermutation()
+std::ostream &
+operator<<(std::ostream &os, Permutation &p)
+{
+  // Length of each entries:
+  unsigned int spaces = 3;
+
+  os << "<";
+  for (unsigned int i = 0; i<p.tot-1; ++i)
+    os << std::setw(spaces) << p[i] <<  ",";
+  os << std::setw(spaces) << p[p.tot-1] << ">" << std::endl;
+  return os;
+}
+
+LPermutation::LPermutation()
   :
   Permutation(0)
 {}
 
-void
-GPermutation::add_an_element(char element)
+LPermutation::LPermutation(const LPermutation &p)
+  :
+  Permutation(p.tot, p.sequence),
+  from_int_to_char(p.from_int_to_char),
+  from_char_to_int(p.from_char_to_int)
+{};
+
+char
+LPermutation::get_char(unsigned int i)
 {
-  if (!key_map.count(element))
-    {
-      sequence_map[tot] = element;
-      key_map[element] = tot;
-      new_element();
-    }
-  else
-    print_msg("This element is alreary present");
-  return;
+  return from_int_to_char[i];
 }
 
-void
-GPermutation::print_elements()
+unsigned int
+LPermutation::get_int(char c)
 {
-  if (tot==0)
-    print_msg("Empty permutation");
-  else
+  return from_char_to_int[c];
+}
+
+bool
+LPermutation::add_an_element(char element, bool output)
+{
+  bool status=false;
+  if (!from_char_to_int.count(element))
     {
-      print_msg(" Sequence Length:   " + std::to_string(tot));
-      print_map<unsigned int, char>(sequence_map, 3);
+      from_int_to_char[tot] = element;
+      from_char_to_int[element] = tot;
+      new_element();
+      status = true;
     }
+  else if (output)
+    print_msg("This element is alreary present");
+  return status;
+}
+
+std::ostream &
+operator<<(std::ostream &os, LPermutation &p)
+{
+  // Length of each entries:
+  unsigned int spaces = 3;
+
+  os << "<";
+  for (unsigned int i = 0; i<p.tot-1; ++i)
+    os << std::setw(spaces) << p[i] <<  ",";
+  os << std::setw(spaces) << p[p.tot-1] << ">" << std::endl;
+  os << "<";
+  for (unsigned int i = 0; i<p.tot-1; ++i)
+    os << std::setw(spaces) << p.from_int_to_char[p[i]] <<  ",";
+  os << std::setw(spaces) << p.from_int_to_char[p[p.tot-1]] << ">" << std::endl;
+  return os;
 }

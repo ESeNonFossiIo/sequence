@@ -1,0 +1,14 @@
+#!/bin/bash
+
+FILES=$(ls ./tests/*.cc | sed 's#./tests/##' | sed 's#.cc##')
+
+mkdir build_tests
+cd build_tests
+cmake .. -DENABLE_TESTS=ON
+make
+ctest -R
+
+for f in $FILES
+do
+  cp tests/$f/output ../tests/$f.output
+done

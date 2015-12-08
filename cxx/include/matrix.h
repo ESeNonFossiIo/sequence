@@ -3,6 +3,7 @@
 
 #include <stdlib.h>
 #include <vector>
+#include <iostream>
 #include "permutation.h"
 
 /**
@@ -12,15 +13,49 @@ class Matrix
 {
 public:
   /**
-   * Constructor takes the number of rows and coloumns.
+   * Constructor takes the number of rows and coloumns and
+   *  initialize mat with zeroes.
    */
   Matrix (unsigned int rows, unsigned int cols);
 
   /**
+   * Constructor takes the number of rows and coloumns and
+   *  initialize mat with the elements of m.
+   */
+  Matrix(unsigned int rows, unsigned int cols,
+         std::vector<std::vector<unsigned int> > m);
+
+  /**
+   * Constructor a matrix with the same entries.
+   */
+  Matrix (const Matrix &m);
+
+  /**
    *  Add one to the element in position @p i and @p j.
+   *  @p output_matrix enables the output of the situation.
    */
   void
   add_one (unsigned int i, unsigned int j);
+
+  /**
+   * Calulate the numeber of zeroes in each row (coloumn).
+   * If @p row is true it will be made using rows, otherwise
+   * coloumns.
+   * The result is a vector that indicates the number of zeroes
+   * in each row (coloumn).
+   */
+  std::vector<unsigned int>
+  zeroes(bool row=true);
+
+  /**
+   * Calulate the max value in each row (coloumn).
+   * If @p row is true it will be made using rows, otherwise
+   * coloumns.
+   * The result is a vector that indicates the max value
+   * in each row (coloumn).
+   */
+  std::vector<unsigned int>
+  min(bool row=true);
 
   /**
    *  Permute the matrix according to the Permutation @p p and
@@ -29,13 +64,39 @@ public:
    *  on the rows, otherwise on coloumns.
    */
   unsigned int
-  trace (Permutation p_row, Permutation p_col);
+  trace ();
 
   /**
-   *  Output of the matrix.
+   *  Status of the matrix:
+   *  - Number of rows
+   *  - Number of coloumns
+   *  - Trace
    */
   void
-  print (Permutation p_row, Permutation p_col, bool report = true);
+  status();
+
+  /**
+   *  Copy operator.
+   */
+  Matrix &operator=(Matrix other)
+  {
+    this->n_row=other.n_row;
+    this->n_col=other.n_col;
+    this->mat=other.mat;
+    return *this;
+  }
+
+  /**
+   *  Overload of the output operator <<.
+   *  It is possible to check the ouput of the matrix in the following way:
+   *  @code{.cpp}
+   *   Matrix p;
+   *   ...
+   *   std::cout << p;
+   *  @endcode{.cpp}
+   */
+  friend std::ostream &operator<< (std::ostream &os,
+                                   const Matrix &dt);
 
 protected:
   /**
@@ -61,16 +122,74 @@ protected:
 class HMatrix : public Matrix
 {
 public:
-  HMatrix(unsigned int rows, unsigned int cols);
+  /**
+   *  Hungarian Matrix Class constructor.
+   */
+  HMatrix();
 
+  // /**
+  //  *  Hungarian Matrix Class constructor a matrix starting from
+  //  *  the number of rows and cols.
+  //  */
+  // HMatrix(unsigned int rows, unsigned int cols);
+
+  /**
+   * Constructor a matrix with the same entries.
+   */
+  HMatrix (const HMatrix &m);
+
+  /**
+   *  Copy the value of @p res in @p old_res
+   */
   void
-  first_step(Permutation p_row, Permutation p_col, bool row = true);
+  update();
+
+  /**
+   *  TODO:
+   */
+  void
+  switch_elements(unsigned int i, unsigned int j, bool row=true);
+
+  /**
+   *
+   */
+  void
+  add_an_element(char c_row, char c_col);
+
+  /**
+   *  Remove from each row (coloumn) the minimun element.
+   *  @p row set if operation will be made on rows (true)
+   *  or coloumns (false). Default value is trues.
+   */
+  void
+  first_step(bool row = true);
+
+  /**
+   *  Overload of the output operator <<.
+   *  It is possible to check the ouput of the matrix in the following way:
+   *  @code{.cpp}
+   *   Matrix p;
+   *   ...
+   *   std::cout << p;
+   *  @endcode{.cpp}
+   */
+  friend std::ostream &operator<< (std::ostream &os, const HMatrix &dt);
 
 private:
   /**
    *  Resulting matrix.
    */
   std::vector<std::vector<unsigned int> > res;
+
+  /**
+   *  Permutation on the rows.
+   */
+  LPermutation p_row;
+
+  /**
+   *  Permutation on the coloumns.
+   */
+  LPermutation p_col;
 };
 
 #endif

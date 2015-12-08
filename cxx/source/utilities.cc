@@ -25,7 +25,7 @@ double cclock()
 
 void print_msg(std::string msg)
 {
-  std::cout << "=================================================="<< std::endl;
+  std::cout << std::endl << std::endl << "=================================================="<< std::endl;
   std::cout << " " << msg << std::endl;
   std::cout << "=================================================="<< std::endl;
 }
@@ -69,6 +69,26 @@ void print_map(std::map<T,S> map, unsigned int space)
     std::cout << std::setw(space) << it->first <<  ",";
   std::cout << std::setw(space) << it_end->first << " > " << std::endl;;
   std::cout << "=================================================="<< std::endl;
+}
+
+std::pair<unsigned int, unsigned int>
+min(std::vector<unsigned int> vec)
+{
+  std::pair<unsigned int, unsigned int> min;
+  unsigned int counter = 0;
+  min.first=*vec.begin();
+  min.second=0;
+  for (typename std::vector<unsigned int>::iterator it=vec.begin();
+       it!=vec.end(); ++it)
+    {
+      if (*it<min.first)
+      {
+        min.first=*it;
+        min.second=counter;
+      }
+      counter++;
+    }
+  return min;
 }
 
 // explicit instantiation:

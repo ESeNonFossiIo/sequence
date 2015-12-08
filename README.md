@@ -26,3 +26,7 @@ mkdir build
 cd build
 make doc
 open ../doc/html/index.html
+
+# What is required:
+
+- C++11

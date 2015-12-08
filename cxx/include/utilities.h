@@ -42,4 +42,10 @@ void print_sequence(std::vector<T> vec, unsigned int space = 3);
 template <typename T,typename S>
 void print_map(std::map<T,S> map, unsigned int space = 3);
 
+/**
+ * Return the minimun value in a std::vector and the position
+ * of the first entry with the value of the minimum.
+ */
+std::pair<unsigned int, unsigned int>
+min(std::vector<unsigned int> vec);
 #endif

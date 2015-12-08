@@ -16,6 +16,11 @@ class Permutation
 public:
   Permutation(unsigned int num);
 
+  Permutation( unsigned int num,
+               std::vector<unsigned int> sequence );
+
+  Permutation(const Permutation &p);
+
   /**
    * Add an element to the permutation.
    */
@@ -27,9 +32,22 @@ public:
   void switch_elements(unsigned int i, unsigned int j);
 
   /**
-   * Print permutation.
+   *  Status of the matrix:
+   *  - Number of elements
    */
-  void print(bool sequence = true, bool length = false);
+  void
+  status();
+
+  /**
+   *  Overload of the output operator <<.
+   *  It is possible to check the ouput of the permutations in the following way:
+   *  @code{.cpp}
+   *   Permutation p;
+   *   ...
+   *   std::cout << p;
+   *  @endcode{.cpp}
+   */
+  friend std::ostream &operator<< (std::ostream &os, Permutation &dt);
 
   /**
    * Access to the element @p i.
@@ -43,7 +61,6 @@ protected:
    */
   unsigned int tot;
 
-private:
   /**
    * Current permutation.
    */
@@ -51,35 +68,58 @@ private:
 };
 
 /**
- * GPermutation. Generalize the Permutation class and associate to each number.
- * an element of a generic typename T.
+ * LPermutation stands for labeled permutation. It adds to
+ * the Permutation class a map of labels.
  */
-class GPermutation : public Permutation
+class LPermutation : public Permutation
 {
 public:
-  GPermutation();
+  LPermutation();
+
+  LPermutation(const LPermutation &p);
 
   /**
-   * Add an element @p element of type T to the sequence.
+   * Add an element @p element of type char to the sequence.
+   * If this label exists the function return false, otherwise
+   * true.
    */
-  void add_an_element(char element);
+  bool add_an_element(char element, bool output=false);
 
   /**
-   * Print permutation.
+   *  Overload of the output operator <<.
+   *  It is possible to check the ouput of the permutations in the following way:
+   *  @code{.cpp}
+   *   LPermutation p;
+   *   ...
+   *   std::cout << p;
+   *  @endcode{.cpp}
    */
-  void print_elements();
+  friend std::ostream &operator<< (std::ostream &os,
+                                   LPermutation &dt);
+
+  /**
+   * TODO:
+   */
+  char
+  get_char(unsigned int i);
+
+  /**
+   * TODO:
+   */
+  unsigned int
+  get_int(char c);
 
 private:
   /**
    * Associate to each number of the sequence an element.
    */
-  std::map<unsigned int, char> sequence_map;
+  std::map<unsigned int, char> from_int_to_char;
 
   /**
    * Associate to each element the linked number.
    * This map is a kind of inverse of @p sequence_map.
    */
-  std::map<char, unsigned int> key_map;
+  std::map<char, unsigned int> from_char_to_int;
 };
 
 #endif
