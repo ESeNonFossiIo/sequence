@@ -82,10 +82,10 @@ min(std::vector<unsigned int> vec)
        it!=vec.end(); ++it)
     {
       if (*it<min.first)
-      {
-        min.first=*it;
-        min.second=counter;
-      }
+        {
+          min.first=*it;
+          min.second=counter;
+        }
       counter++;
     }
   return min;
