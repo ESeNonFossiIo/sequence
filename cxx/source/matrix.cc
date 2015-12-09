@@ -128,6 +128,15 @@ Matrix::status()
   print_msg(msg);
 }
 
+Matrix&
+Matrix::operator=(Matrix other)
+{
+  this->n_row=other.n_row;
+  this->n_col=other.n_col;
+  this->mat=other.mat;
+  return *this;
+}
+
 std::ostream &
 operator<<(std::ostream &os, const Matrix &m)
 {

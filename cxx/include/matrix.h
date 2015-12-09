@@ -78,13 +78,8 @@ public:
   /**
    *  Copy operator.
    */
-  Matrix &operator=(Matrix other)
-  {
-    this->n_row=other.n_row;
-    this->n_col=other.n_col;
-    this->mat=other.mat;
-    return *this;
-  }
+  Matrix&
+  operator=(Matrix other);
 
   /**
    *  Overload of the output operator <<.
