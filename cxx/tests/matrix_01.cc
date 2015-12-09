@@ -11,6 +11,8 @@
 
 int main(int argc, char *argv[])
 {
+  using namespace utilities;
+
   print_msg("-> Create a permutation of 4 elements:");
   Permutation id(4);
   std::cout << id

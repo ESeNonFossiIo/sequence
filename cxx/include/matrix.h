@@ -48,6 +48,16 @@ public:
   zeroes(bool row=true);
 
   /**
+   * Calulate the min value in each row (coloumn).
+   * If @p row is true it will be made using rows, otherwise
+   * coloumns.
+   * The result is a vector that indicates the min value
+   * in each row (coloumn).
+   */
+  std::vector<unsigned int>
+  get_min(bool row=true);
+
+  /**
    * Calulate the max value in each row (coloumn).
    * If @p row is true it will be made using rows, otherwise
    * coloumns.
@@ -55,7 +65,7 @@ public:
    * in each row (coloumn).
    */
   std::vector<unsigned int>
-  min(bool row=true);
+  get_max(bool row=true);
 
   /**
    *  Permute the matrix according to the Permutation @p p and
@@ -78,7 +88,7 @@ public:
   /**
    *  Copy operator.
    */
-  Matrix&
+  Matrix &
   operator=(Matrix other);
 
   /**
@@ -154,13 +164,30 @@ public:
   first_step(bool row = true);
 
   /**
-   *
+   * Calulate the numeber of 'x' in each row (coloumn) of mask
+   * matrix.
+   * If @p row is true it will be made using rows, otherwise
+   * coloumns.
+   * The result is a vector that indicates the number of 'x'
+   * in each row (coloumn).
    */
-  bool
+  std::vector<unsigned int>
+  zeroes(bool row=true);
+
+  /**
+   * TODO:
+   */
+  void
   initialize_mask();
 
   /**
-   *
+   * TODO:
+   */
+  void
+  status_mask();
+
+  /**
+   * TODO:
    */
   bool
   check_rank();
@@ -185,7 +212,7 @@ private:
   /**
    *  Mask used to remove entries.
    */
-  std::vector<std::vector<bool> > mask;
+  std::vector<std::vector<char> > mask;
 
   /**
    *  Permutation on the rows.

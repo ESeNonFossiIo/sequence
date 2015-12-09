@@ -13,7 +13,8 @@
 #include <iomanip>      // std::setw
 #include "utilities.h"
 
-double cclock()
+double
+utilities::cclock()
 {
   struct timeval tmp;
   double sec;
@@ -22,14 +23,16 @@ double cclock()
   return sec;
 }
 
-void print_msg(std::string msg)
+void
+utilities::print_msg(std::string msg)
 {
   std::cout << std::endl << std::endl << "=================================================="<< std::endl;
   std::cout << " " << msg << std::endl;
   std::cout << "=================================================="<< std::endl;
 }
 
-void print_msg(std::vector<std::string> msg)
+void
+utilities::print_msg(std::vector<std::string> msg)
 {
   std::cout << "=================================================="<< std::endl;
   for (std::vector<std::string>::iterator it = msg.begin();
@@ -39,7 +42,8 @@ void print_msg(std::vector<std::string> msg)
 }
 
 template <typename T>
-void print_sequence(std::vector<T> vec, unsigned int space)
+void
+utilities::print_sequence(std::vector<T> vec, unsigned int space)
 {
   std::cout << "=================================================="<< std::endl;
 
@@ -55,7 +59,8 @@ void print_sequence(std::vector<T> vec, unsigned int space)
 }
 
 template <typename T,typename S>
-void print_map(std::map<T,S> map, unsigned int space)
+void
+utilities::print_map(std::map<T,S> map, unsigned int space)
 {
   std::cout << "=================================================="<< std::endl;
 
@@ -71,7 +76,7 @@ void print_map(std::map<T,S> map, unsigned int space)
 }
 
 std::pair<unsigned int, unsigned int>
-min(std::vector<unsigned int> vec)
+utilities::min(std::vector<unsigned int> vec)
 {
   std::pair<unsigned int, unsigned int> min;
   unsigned int counter = 0;
@@ -90,7 +95,27 @@ min(std::vector<unsigned int> vec)
   return min;
 }
 
+std::pair<unsigned int, unsigned int>
+utilities::max(std::vector<unsigned int> vec)
+{
+  std::pair<unsigned int, unsigned int> max;
+  unsigned int counter = 0;
+  max.first=*vec.begin();
+  max.second=0;
+  for (typename std::vector<unsigned int>::iterator it=vec.begin();
+       it!=vec.end(); ++it)
+    {
+      if (*it>max.first)
+        {
+          max.first=*it;
+          max.second=counter;
+        }
+      counter++;
+    }
+  return max;
+}
+
 // explicit instantiation:
-template void print_sequence<unsigned int>(std::vector<unsigned int> vec, unsigned int space);
-template void print_map<unsigned int,char>(std::map<unsigned int,char> map, unsigned int space);
-template void print_map<char,unsigned int>(std::map<char,unsigned int> map, unsigned int space);
+template void utilities::print_sequence<unsigned int>(std::vector<unsigned int> vec, unsigned int space);
+template void utilities::print_map<unsigned int,char>(std::map<unsigned int,char> map, unsigned int space);
+template void utilities::print_map<char,unsigned int>(std::map<char,unsigned int> map, unsigned int space);

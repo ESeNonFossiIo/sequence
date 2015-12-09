@@ -11,6 +11,8 @@
 
 int main(int argc, char *argv[])
 {
+  using namespace utilities;
+
   HMatrix m;
   m.add_an_element('A','A');
   m.add_an_element('A','B');

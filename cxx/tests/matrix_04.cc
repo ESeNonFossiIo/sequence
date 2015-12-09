@@ -11,6 +11,8 @@
 
 int main(int argc, char *argv[])
 {
+  using namespace utilities;
+
   HMatrix m;
   char c[4]= {'A', 'B', 'C'};
   for (unsigned int i=0; i<3; ++i)
@@ -31,17 +33,11 @@ int main(int argc, char *argv[])
   m.update();
   std::cout << m;
 
-  auto zeroes = m.zeroes();
-  auto min    = m.min();
-  print_msg("Number of zeroes per row:");
-  print_sequence<unsigned int>(zeroes, 2);
+  auto min    = m.get_min();
   print_msg("Minimum per row:");
   print_sequence<unsigned int>(min,    2);
 
-  zeroes = m.zeroes(false);
-  min    = m.min(false);
-  print_msg("Number of zeroes per column:");
-  print_sequence<unsigned int>(zeroes, 2);
+  min    = m.get_min(false);
   print_msg("Minimum per column:");
   print_sequence<unsigned int>(min,    2);
 

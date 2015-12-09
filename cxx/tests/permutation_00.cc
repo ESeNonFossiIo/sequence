@@ -11,6 +11,8 @@
 
 int main(int argc, char *argv[])
 {
+  using namespace utilities;
+
   print_msg("Create a permutation of three elements:");
   Permutation p(3);
   std::cout << p;

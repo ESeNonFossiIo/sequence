@@ -12,7 +12,7 @@
 #include "utilities.h"
 #include "permutation.h"
 
-
+using namespace utilities;
 
 Permutation::Permutation( unsigned int num )
   :

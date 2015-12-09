@@ -11,6 +11,8 @@
 
 int main(int argc, char *argv[])
 {
+  using namespace utilities;
+
   print_msg("Create a permutation of three elements:");
   LPermutation p;
   p.add_an_element('A');
