@@ -1,4 +1,3 @@
-
 /*
  * Authors: Luca Ponzoni and Mauro Bardelloni
  * date: 2015-11-23

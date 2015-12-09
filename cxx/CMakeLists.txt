@@ -50,7 +50,11 @@ IF (ENABLE_TESTS STREQUAL ON)
   ENABLE_TESTING()
   ADD_SUBDIRECTORY(tests)
 ENDIF()
-MESSAGE( " ENABLE_TESTS is set on " ${ENABLE_TESTS} )
+
+MESSAGE(STATUS "==================== STATUS: ====================")
+MESSAGE(STATUS " ENABLE_TESTS : ......... " ${ENABLE_TESTS} )
+MESSAGE(STATUS " CMAKE_CXX_FLAGS : ...... " ${CMAKE_CXX_FLAGS})
+MESSAGE(STATUS "=================================================")
 
 ADD_CUSTOM_TARGET(debug
   COMMAND ${CMAKE_COMMAND} -DCMAKE_BUILD_TYPE=Debug ${CMAKE_SOURCE_DIR}

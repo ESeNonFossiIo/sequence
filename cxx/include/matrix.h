@@ -122,12 +122,6 @@ public:
    */
   HMatrix();
 
-  // /**
-  //  *  Hungarian Matrix Class constructor a matrix starting from
-  //  *  the number of rows and cols.
-  //  */
-  // HMatrix(unsigned int rows, unsigned int cols);
-
   /**
    * Constructor a matrix with the same entries.
    */
@@ -146,7 +140,7 @@ public:
   switch_elements(unsigned int i, unsigned int j, bool row=true);
 
   /**
-   *
+   *  TODO:
    */
   void
   add_an_element(char c_row, char c_col);
@@ -158,6 +152,18 @@ public:
    */
   void
   first_step(bool row = true);
+
+  /**
+   *
+   */
+  bool
+  initialize_mask();
+
+  /**
+   *
+   */
+  bool
+  check_rank();
 
   /**
    *  Overload of the output operator <<.
@@ -175,6 +181,11 @@ private:
    *  Resulting matrix.
    */
   std::vector<std::vector<unsigned int> > res;
+
+  /**
+   *  Mask used to remove entries.
+   */
+  std::vector<std::vector<bool> > mask;
 
   /**
    *  Permutation on the rows.
