@@ -27,6 +27,9 @@ int main(int argc, char *argv[])
   m.add_an_element(c[0],c[1]);
   m.add_an_element(c[1],c[1]);
   m.add_an_element(c[2],c[1]);
+  m.add_an_element(c[2],c[0]);
+  m.add_an_element(c[2],c[1]);
+  m.add_an_element(c[3],c[2]);
   m.add_an_element(c[3],c[1]);
   HMatrix n(m);
 

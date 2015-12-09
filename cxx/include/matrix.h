@@ -164,6 +164,32 @@ public:
   first_step(bool row = true);
 
   /**
+   *  TODO:
+   */
+  void
+  second_step(bool row = true);
+
+  /**
+   * Calulate the min value in each row (coloumn).
+   * If @p row is true it will be made using rows, otherwise
+   * coloumns.
+   * The result is a vector that indicates the min value
+   * in each row (coloumn).
+   */
+  std::vector<unsigned int>
+  get_min(bool row=true);
+
+  /**
+   * Calulate the max value in each row (coloumn).
+   * If @p row is true it will be made using rows, otherwise
+   * coloumns.
+   * The result is a vector that indicates the max value
+   * in each row (coloumn).
+   */
+  std::vector<unsigned int>
+  get_max(bool row=true);
+  
+  /**
    * Calulate the numeber of 'x' in each row (coloumn) of mask
    * matrix.
    * If @p row is true it will be made using rows, otherwise

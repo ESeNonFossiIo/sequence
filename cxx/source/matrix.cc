@@ -4,7 +4,6 @@
  * time: 18:34:45
  */
 
-#include <sstream>      // std::ostringstream
 #include <iostream>     // std::cout, std::endl
 #include <iomanip>      // std::setw
 #include <vector>
@@ -244,19 +243,98 @@ HMatrix::switch_elements(unsigned int i, unsigned int j, bool row)
 void
 HMatrix::first_step(bool row)
 {
-  std::vector<unsigned int> min = this->get_min(row);
+  std::vector<unsigned int> min = get_min(row);
+  print_sequence(min);
   if (row)
     {
       for (unsigned int i = 0; i<n_row; ++i)
         for (unsigned int j = 0; j<n_col; ++j)
-          mat[i][j]-=min[i];
+        {
+          res[i][j]-=min[i];
+          std::cout << res[i][j];
+        }
     }
   else
     {
       for (unsigned int j = 0; j<n_col; ++j)
         for (unsigned int i = 0; i<n_row; ++i)
-          mat[i][j]-=min[j];
+        {
+          std::cout << res[i][j] << "-" << min[j];
+          res[i][j]-=min[j];
+            std::cout << "=" << res[i][j] << std::endl;
+        }
     }
+}
+
+void
+HMatrix::second_step(bool row)
+{
+  initialize_mask();
+  bool status=check_rank();
+  if(!status)
+  {
+    std::vector<unsigned int> elements;
+    unsigned int max_element;
+
+        for (unsigned int i = 0; i<n_row; ++i)
+          for (unsigned int j = 0; j<n_col; ++j)
+            if(mask[i][j]==' ')
+              elements.push_back(res[i][j]);
+
+    max_element = min(elements).first;
+    print_msg( "--->" + std::to_string(max_element) );
+
+    for (unsigned int i = 0; i<n_row; ++i)
+      for (unsigned int j = 0; j<n_col; ++j)
+        if(mask[i][j]==' ')
+          elements.push_back(res[i][j]);
+  }
+}
+
+std::vector<unsigned int>
+HMatrix::get_min(bool row)
+{
+  std::vector<unsigned int> return_vector;
+  if (row)
+    for (unsigned int i=0; i<n_row; ++i)
+      {
+        return_vector.push_back(res[i][0]);
+        for (unsigned int j=1; j<n_col; ++j)
+          if (res[i][j]<return_vector[i])
+            return_vector[i]=res[i][j];
+      }
+  else
+    for (unsigned int j=0; j<n_col; ++j)
+      {
+        return_vector.push_back(res[0][j]);
+        for (unsigned int i=1; i<n_row; ++i)
+          if (res[i][j]<return_vector[j])
+            return_vector[j]=res[i][j];
+      }
+  return return_vector;
+}
+
+std::vector<unsigned int>
+HMatrix::get_max(bool row)
+{
+  std::vector<unsigned int> return_vector;
+  if (row)
+    for (unsigned int i=0; i<n_row; ++i)
+      {
+        return_vector.push_back(res[i][0]);
+        for (unsigned int j=1; j<n_col; ++j)
+          if (res[i][j]>return_vector[i])
+            return_vector[i]=res[i][j];
+      }
+  else
+    for (unsigned int j=0; j<n_col; ++j)
+      {
+        return_vector.push_back(res[0][j]);
+        for (unsigned int i=1; i<n_row; ++i)
+          if (res[i][j]>return_vector[j])
+            return_vector[j]=res[i][j];
+      }
+  return return_vector;
 }
 
 std::vector<unsigned int>
