@@ -3,7 +3,7 @@
 
 #include <fstream>
 
-#include "matrix.h"
+#include "hungarian_matrix.h"
 
 /**
  *  TODO:

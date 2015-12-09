@@ -6,7 +6,7 @@
  * test: Hmatrix copy constructor and first_step
  */
 
-#include "matrix.h"
+#include "hungarian_matrix.h"
 #include "utilities.h"
 
 int main(int argc, char *argv[])

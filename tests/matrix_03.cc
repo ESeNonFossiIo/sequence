@@ -6,7 +6,7 @@
  * test: Switch rows and coloumns
  */
 
-#include "matrix.h"
+#include "hungarian_matrix.h"
 #include "utilities.h"
 
 int main(int argc, char *argv[])

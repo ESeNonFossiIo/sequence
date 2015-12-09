@@ -124,20 +124,3 @@ LPermutation::add_an_element(char element, bool output)
     print_msg("This element is alreary present");
   return status;
 }
-
-std::ostream &
-operator<<(std::ostream &os, LPermutation &p)
-{
-  // Length of each entries:
-  unsigned int spaces = 3;
-
-  os << "<";
-  for (unsigned int i = 0; i<p.tot-1; ++i)
-    os << std::setw(spaces) << p[i] <<  ",";
-  os << std::setw(spaces) << p[p.tot-1] << ">" << std::endl;
-  os << "<";
-  for (unsigned int i = 0; i<p.tot-1; ++i)
-    os << std::setw(spaces) << p.from_int_to_char[p[i]] <<  ",";
-  os << std::setw(spaces) << p.from_int_to_char[p[p.tot-1]] << ">" << std::endl;
-  return os;
-}
