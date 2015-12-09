@@ -6,6 +6,8 @@
 
 #include <iostream>     // std::cout, std::endl
 #include <iomanip>      // std::setw
+#include <algorithm>    // std::find
+#include <set>
 #include <vector>
 #include <cmath>
 #include "matrix.h"
@@ -132,6 +134,26 @@ Matrix::get_max(bool row)
 }
 
 unsigned int
+Matrix::maximum_value()
+{
+  unsigned int maximum = mat[0][0];
+  for (unsigned int i=0; i<n_row; ++i)
+    for (unsigned int j=0; j<n_col; ++j)
+      if(mat[i][j]>maximum)
+        maximum = mat[i][j];
+  return maximum;
+}
+
+void
+Matrix::maximum_complement()
+{
+  unsigned int maximum = maximum_value();
+  for (unsigned int i=0; i<n_row; ++i)
+    for (unsigned int j=0; j<n_col; ++j)
+      mat[i][j] = maximum - mat[i][j];
+}
+
+unsigned int
 Matrix::trace ()
 {
   unsigned int result=0;
@@ -168,14 +190,14 @@ operator<<(std::ostream &os, const Matrix &m)
   // How to start each row:
   std::string row_init = "    ";
   // Length of each coloum:
-  unsigned int spaces  = 3;
+  unsigned int spaces  = 5;
 
   os << std::endl;
   for (unsigned int r = 0; r < m.n_row; ++r)
     {
-      os << row_init << "+" << "---";
+      os << row_init << "+" << "-----";
       for (unsigned int c = 1; c < m.n_col; ++c)
-        os << "+" << "---";
+        os << "+" << "-----";
       os << "+" << std::endl
          << row_init << "|";
       for (unsigned int c = 0; c< m.n_col; ++c)
@@ -184,7 +206,7 @@ operator<<(std::ostream &os, const Matrix &m)
     }
   os << row_init;
   for (unsigned int c = 0; c < m.n_col; ++c)
-    os << "+" << "---";
+    os << "+" << "-----";
   os << "+" << std::endl;
 
   return os;
@@ -215,7 +237,7 @@ HMatrix::update()
     res[i].resize(n_col, 0);
 
   for (unsigned int r=0; r<n_row; ++r)
-    for (unsigned int c=0; c<n_row; ++c)
+    for (unsigned int c=0; c<n_col; ++c)
       res[r][c]=mat[r][c];
 }
 
@@ -244,51 +266,97 @@ void
 HMatrix::first_step(bool row)
 {
   std::vector<unsigned int> min = get_min(row);
-  print_sequence(min);
   if (row)
     {
       for (unsigned int i = 0; i<n_row; ++i)
         for (unsigned int j = 0; j<n_col; ++j)
-        {
           res[i][j]-=min[i];
-          std::cout << res[i][j];
-        }
     }
   else
     {
       for (unsigned int j = 0; j<n_col; ++j)
         for (unsigned int i = 0; i<n_row; ++i)
-        {
-          std::cout << res[i][j] << "-" << min[j];
           res[i][j]-=min[j];
-            std::cout << "=" << res[i][j] << std::endl;
-        }
     }
+}
+
+std::vector<unsigned int>
+HMatrix::blank(bool row)
+{
+  std::vector<unsigned int> out_result;
+  if (row)
+    {
+      for (unsigned int i = 0; i<n_row; ++i)
+        for (unsigned int j = 0; j<n_col; ++j)
+          if (mask[i][j]==' ')
+            {
+              out_result.push_back(i);
+              break;
+            }
+    }
+  else
+    {
+      for (unsigned int j = 0; j<n_col; ++j)
+        for (unsigned int i = 0; i<n_row; ++i)
+          if (mask[i][j]==' ')
+            {
+              out_result.push_back(j);
+              break;
+            }
+    }
+  return out_result;
 }
 
 void
 HMatrix::second_step(bool row)
 {
-  initialize_mask();
-  bool status=check_rank();
-  if(!status)
-  {
-    std::vector<unsigned int> elements;
-    unsigned int max_element;
+  std::vector<unsigned int> elements;
+  unsigned int max_element;
 
-        for (unsigned int i = 0; i<n_row; ++i)
-          for (unsigned int j = 0; j<n_col; ++j)
-            if(mask[i][j]==' ')
-              elements.push_back(res[i][j]);
+  for (unsigned int i = 0; i<n_row; ++i)
+    for (unsigned int j = 0; j<n_col; ++j)
+      if (mask[i][j]==' ')
+        elements.push_back(res[i][j]);
 
-    max_element = min(elements).first;
-    print_msg( "--->" + std::to_string(max_element) );
+  max_element = min(elements).first;
 
-    for (unsigned int i = 0; i<n_row; ++i)
+  std::vector<unsigned int> blank_elements;
+  blank_elements=blank(row);
+
+  if (row)
+    {
+      std::vector<unsigned int> tmp_vec;
       for (unsigned int j = 0; j<n_col; ++j)
-        if(mask[i][j]==' ')
-          elements.push_back(res[i][j]);
-  }
+        if (res[blank_elements[0]][j]==0)
+          tmp_vec.push_back(j);
+
+      for (typename std::vector<unsigned int>::iterator it=tmp_vec.begin();
+           it!=tmp_vec.end(); ++it)
+        for (unsigned int i = 0; i<n_row; ++i)
+          res[i][*it]+=max_element;
+
+      for (typename std::vector<unsigned int>::iterator it=blank_elements.begin();
+           it!=blank_elements.end(); ++it)
+        for (unsigned int j = 0; j<n_col; ++j)
+          res[*it][j]-=max_element;
+    }
+  else
+    {
+      std::vector<unsigned int> tmp_vec;
+      for (unsigned int i = 0; i<n_row; ++i)
+        if (res[blank_elements[i]][0]==0)
+          tmp_vec.push_back(i);
+
+      for (typename std::vector<unsigned int>::iterator it=tmp_vec.begin();
+           it!=tmp_vec.end(); ++it)
+        for (unsigned int j = 0; j<n_col; ++j)
+          res[*it][j]+=max_element;
+
+      for (typename std::vector<unsigned int>::iterator it=blank_elements.begin();
+           it!=blank_elements.end(); ++it)
+        for (unsigned int i = 0; i<n_row; ++i)
+          res[i][*it]-=max_element;
+    }
 }
 
 std::vector<unsigned int>
@@ -402,6 +470,12 @@ HMatrix::status_mask()
   std::cout << "+" << std::endl;
 }
 
+void
+HMatrix::sort(bool row)
+{
+  // TODO:
+}
+
 bool
 HMatrix::check_rank()
 {
@@ -416,7 +490,7 @@ HMatrix::check_rank()
   auto max_row = utilities::max(row_zeroes);
   auto max_col = utilities::max(col_zeroes);
 
-  while(max_row.first>0 && max_col.first>0)
+  while (max_row.first>0 && max_col.first>0)
     {
       if ( max_row.first < max_col.first )
         {
@@ -453,14 +527,14 @@ operator<<(std::ostream &os, const HMatrix &m)
   // How to start each row:
   std::string row_init = "    ";
   // Length of each coloum:
-  unsigned int spaces  = 3;
+  unsigned int spaces  = 5;
 
   os << std::endl;
   for (unsigned int r = 0; r < m.n_row; ++r)
     {
-      os << row_init << "+" << "---";
+      os << row_init << "+" << "-----";
       for (unsigned int c = 1; c < m.n_col; ++c)
-        os << "+" << "---";
+        os << "+" << "-----";
       os << "+" << std::endl
          << row_init << "|";
       for (unsigned int c = 0; c< m.n_col; ++c)
@@ -469,7 +543,7 @@ operator<<(std::ostream &os, const HMatrix &m)
     }
   os << row_init;
   for (unsigned int c = 0; c < m.n_col; ++c)
-    os << "+" << "---";
+    os << "+" << "-----";
   os << "+" << std::endl;
 
   return os;

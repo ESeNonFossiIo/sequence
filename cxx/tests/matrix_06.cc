@@ -37,12 +37,20 @@ int main(int argc, char *argv[])
   m.update();
   std::cout << m;
 
+  print_msg("First step:");
   m.first_step();
   m.first_step(false);
   std::cout << m;
 
+  m.initialize_mask();
+  m.check_rank();
+  m.status_mask();
+
+  print_msg("Second step:");
   m.second_step();
   std::cout << m;
 
+  m.initialize_mask();
+  m.check_rank();
   m.status_mask();
 }

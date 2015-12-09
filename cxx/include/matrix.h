@@ -68,6 +68,18 @@ public:
   get_max(bool row=true);
 
   /**
+   * Calulate the maximum value of the matrix;
+   */
+  unsigned int
+  maximum_value();
+
+  /**
+   * TODO:
+   */
+  void
+  maximum_complement();
+
+  /**
    *  Permute the matrix according to the Permutation @p p and
    *  evaluate the trace.
    *  If the bool @p row is set on true the Permutation is made
@@ -153,6 +165,12 @@ public:
    *  TODO:
    */
   void
+  sort(bool row=true);
+
+  /**
+   *  TODO:
+   */
+  void
   add_an_element(char c_row, char c_col);
 
   /**
@@ -168,6 +186,12 @@ public:
    */
   void
   second_step(bool row = true);
+
+  /**
+   * TODO:
+   */
+  std::vector<unsigned int>
+  blank(bool row=true);
 
   /**
    * Calulate the min value in each row (coloumn).
@@ -188,7 +212,7 @@ public:
    */
   std::vector<unsigned int>
   get_max(bool row=true);
-  
+
   /**
    * Calulate the numeber of 'x' in each row (coloumn) of mask
    * matrix.
