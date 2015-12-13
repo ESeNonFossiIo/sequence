@@ -26,26 +26,35 @@ utilities::cclock()
 void
 utilities::print_msg(std::string msg)
 {
-  std::cout << std::endl << std::endl << "=================================================="<< std::endl;
-  std::cout << " " << msg << std::endl;
-  std::cout << "=================================================="<< std::endl;
+  std::cout << std::endl << std::flush
+            << std::endl << std::flush << "=================================================="<< std::endl
+            << std::flush;
+  std::cout << " " << msg << std::endl
+            << std::flush;
+  std::cout << "=================================================="<< std::endl
+            << std::flush;
 }
 
 void
 utilities::print_msg(std::vector<std::string> msg)
 {
-  std::cout << "=================================================="<< std::endl;
+  std::cout << std::endl << std::flush
+            << std::endl << std::flush << "=================================================="<< std::endl
+            << std::flush;
   for (std::vector<std::string>::iterator it = msg.begin();
        it != msg.end(); ++it)
-    std::cout << " " << *it << std::endl;
-  std::cout << "=================================================="<< std::endl;
+    std::cout << " " << *it << std::endl
+              << std::flush;
+  std::cout << "=================================================="<< std::endl
+            << std::flush;
 }
 
 template <typename T>
 void
 utilities::print_sequence(std::vector<T> vec, unsigned int space)
 {
-  std::cout << "=================================================="<< std::endl;
+  std::cout << "=================================================="<< std::endl
+            << std::flush;
 
   typename std::vector<T>::iterator it_end=vec.end();
   it_end--;
@@ -54,15 +63,18 @@ utilities::print_sequence(std::vector<T> vec, unsigned int space)
   for (typename std::vector<T>::iterator it=vec.begin();
        it!=it_end; ++it)
     std::cout << std::setw(space) << *it <<  ",";
-  std::cout << std::setw(space) << *it_end << " > " << std::endl;;
-  std::cout << "=================================================="<< std::endl;
+  std::cout << std::setw(space) << *it_end << " > " << std::endl
+            << std::flush;
+  std::cout << "=================================================="<< std::endl
+            << std::flush;
 }
 
 template <typename T,typename S>
 void
 utilities::print_map(std::map<T,S> map, unsigned int space)
 {
-  std::cout << "=================================================="<< std::endl;
+  std::cout << "=================================================="<< std::endl
+            << std::flush;
 
   typename std::map<T,S>::iterator it_end=map.end();
   it_end--;
@@ -71,8 +83,10 @@ utilities::print_map(std::map<T,S> map, unsigned int space)
   for (typename std::map<T,S>::iterator it=map.begin();
        it!=it_end; ++it)
     std::cout << std::setw(space) << it->first <<  ",";
-  std::cout << std::setw(space) << it_end->first << " > " << std::endl;;
-  std::cout << "=================================================="<< std::endl;
+  std::cout << std::setw(space) << it_end->first << " > " << std::endl
+            << std::flush;
+  std::cout << "=================================================="<< std::endl
+            << std::flush;
 }
 
 std::pair<unsigned int, unsigned int>

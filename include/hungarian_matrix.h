@@ -28,7 +28,7 @@ public:
    *  Copy the value of @p res in @p old_res
    */
   void
-  update();
+  update(bool complement = true);
 
   /**
    *  TODO:
@@ -148,6 +148,16 @@ private:
    *  Permutation on the coloumns.
    */
   LPermutation p_col;
+
+  /**
+   * TODO:
+   */
+  unsigned int size;
+
+  /**
+   * TODO:
+   */
+  unsigned int max_val;
 };
 
 #endif

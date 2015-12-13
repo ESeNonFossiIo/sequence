@@ -47,19 +47,19 @@ operator<<(std::ostream &os, const HMatrix &m)
   unsigned int spaces  = 5;
 
   os << std::endl;
-  for (unsigned int r = 0; r < m.n_row; ++r)
+  for (unsigned int r = 0; r < m.size; ++r)
     {
       os << row_init << "+" << "-----";
-      for (unsigned int c = 1; c < m.n_col; ++c)
+      for (unsigned int c = 1; c < m.size; ++c)
         os << "+" << "-----";
       os << "+" << std::endl
          << row_init << "|";
-      for (unsigned int c = 0; c< m.n_col; ++c)
+      for (unsigned int c = 0; c< m.size; ++c)
         os << std::setw(spaces) << m.res[r][c] << "|";
       os << std::endl;
     }
   os << row_init;
-  for (unsigned int c = 0; c < m.n_col; ++c)
+  for (unsigned int c = 0; c < m.size; ++c)
     os << "+" << "-----";
   os << "+" << std::endl;
 
