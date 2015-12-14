@@ -93,9 +93,13 @@ std::pair<unsigned int, unsigned int>
 utilities::min(std::vector<unsigned int> vec)
 {
   std::pair<unsigned int, unsigned int> min;
+  std::cout << "here" << std::flush<<std::endl;
   unsigned int counter = 0;
+  std::cout << "here" << std::flush<<std::endl;
   min.first=*vec.begin();
+  std::cout << "here" << std::flush<<std::endl;
   min.second=0;
+  std::cout << "here" << std::flush<<std::endl;
   for (typename std::vector<unsigned int>::iterator it=vec.begin();
        it!=vec.end(); ++it)
     {
@@ -119,6 +123,7 @@ utilities::max(std::vector<unsigned int> vec)
   for (typename std::vector<unsigned int>::iterator it=vec.begin();
        it!=vec.end(); ++it)
     {
+      // std::cout << "--> " << *it << " - " << counter << std::endl;
       if (*it>max.first)
         {
           max.first=*it;
@@ -126,6 +131,7 @@ utilities::max(std::vector<unsigned int> vec)
         }
       counter++;
     }
+  // std::cout << "====> counter ===> " << counter << std::endl << std::flush;
   return max;
 }
 

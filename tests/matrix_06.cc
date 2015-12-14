@@ -47,10 +47,17 @@ int main(int argc, char *argv[])
   m.status_mask();
 
   print_msg("Second step:");
-  m.second_step();
-  std::cout << m;
+  // m.update();
 
+  m.second_step();
   m.initialize_mask();
   m.check_rank();
   m.status_mask();
+  std::cout << m << std::flush;
+
+  m.second_step();
+  m.initialize_mask();
+  m.check_rank();
+  m.status_mask();
+  std::cout << m << std::flush;
 }

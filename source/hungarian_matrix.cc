@@ -82,12 +82,14 @@ HMatrix::first_step(bool row)
     {
       for (unsigned int i = 0; i<size; ++i)
         for (unsigned int j = 0; j<size; ++j)
+          // std::cout << min[i] << std::endl << std::flush;
           res[i][j]-=min[i];
     }
   else
     {
       for (unsigned int j = 0; j<size; ++j)
         for (unsigned int i = 0; i<size; ++i)
+          // std::cout << min[i] << std::endl << std::flush;
           res[i][j]-=min[j];
     }
 }
@@ -105,6 +107,7 @@ HMatrix::blank(bool row)
               out_result.push_back(i);
               break;
             }
+      print_sequence(out_result);
     }
   else
     {
@@ -115,6 +118,7 @@ HMatrix::blank(bool row)
               out_result.push_back(j);
               break;
             }
+      print_sequence(out_result);
     }
   return out_result;
 }
@@ -130,44 +134,56 @@ HMatrix::second_step(bool row)
       if (mask[i][j]==' ')
         elements.push_back(res[i][j]);
 
-  max_element = min(elements).first;
+  if (elements.size())
+    max_element = min(elements).first;
+  else
+    return;
 
   std::vector<unsigned int> blank_elements;
   blank_elements=blank(row);
 
   if (row)
     {
-      std::vector<unsigned int> tmp_vec;
-      for (unsigned int j = 0; j<size; ++j)
-        if (res[blank_elements[0]][j]==0)
-          tmp_vec.push_back(j);
+      std::vector<unsigned int> tmp;
+      std::vector<unsigned int> tmp_vec_col;
+      unsigned int r=0;
 
-      for (typename std::vector<unsigned int>::iterator it=tmp_vec.begin();
-           it!=tmp_vec.end(); ++it)
+      while (!tmp.size())
+        {
+          tmp_vec_col.clear();
+          for (unsigned int j = 0; j<size; ++j)
+            if (mask[blank_elements[r]][j]==' ')
+              tmp.push_back(j);
+            else
+              tmp_vec_col.push_back(j);
+          ++r;
+        }
+
+      // std::cout << "-----------------" << std::endl;
+      // print_sequence(tmp);
+      // print_sequence(tmp_vec_col);
+      // print_sequence(blank_elements);
+
+      for (typename std::vector<unsigned int>::iterator it=tmp.begin();
+           it!=tmp.end(); ++it)
         for (unsigned int i = 0; i<size; ++i)
-          res[i][*it]+=max_element;
+          res[i][*it]-=max_element;
 
-      for (typename std::vector<unsigned int>::iterator it=blank_elements.begin();
-           it!=blank_elements.end(); ++it)
-        for (unsigned int j = 0; j<size; ++j)
-          res[*it][j]-=max_element;
+      unsigned int this_coloum = tmp[0];
+      // std::cout << "(" << this_coloum << ")" << std::endl;
+      for (unsigned int i = 0; i<size; ++i)
+        {
+          if (mask[i][this_coloum]!=' ')
+            {
+              unsigned int this_row=i;
+              for (unsigned int j = 0; j<size; ++j)
+                res[this_row][j]+=max_element;
+            }
+        }
     }
   else
     {
-      std::vector<unsigned int> tmp_vec;
-      for (unsigned int i = 0; i<size; ++i)
-        if (res[blank_elements[i]][0]==0)
-          tmp_vec.push_back(i);
-
-      for (typename std::vector<unsigned int>::iterator it=tmp_vec.begin();
-           it!=tmp_vec.end(); ++it)
-        for (unsigned int j = 0; j<size; ++j)
-          res[*it][j]+=max_element;
-
-      for (typename std::vector<unsigned int>::iterator it=blank_elements.begin();
-           it!=blank_elements.end(); ++it)
-        for (unsigned int i = 0; i<size; ++i)
-          res[i][*it]-=max_element;
+      //TODO:
     }
 }
 
@@ -221,6 +237,7 @@ std::vector<unsigned int>
 HMatrix::zeroes(bool row)
 {
   std::vector<unsigned int> return_vector;
+  // std::cout << "size = " << size << std::flush << std::endl;
   if (row)
     for (unsigned int i=0; i<size; ++i)
       {
@@ -249,7 +266,7 @@ HMatrix::initialize_mask()
 
   for (unsigned int i = 0; i<size; ++i)
     for (unsigned int j = 0; j<size; ++j)
-      if (i<n_row && j<n_col && res[i][j]!=0)
+      if (i<size && j<size  && res[i][j]!=0)
         mask[i][j]=' ';
       else
         mask[i][j]='x';
@@ -323,7 +340,7 @@ HMatrix::check_rank()
 
   while (max_row.first>0 && max_col.first>0)
     {
-      if ( max_row.first < max_col.first )
+      if ( max_row.first <= max_col.first )
         {
           for (unsigned int i = 0; i<size; ++i)
             if (mask[i][max_col.second]!='-')
@@ -342,10 +359,13 @@ HMatrix::check_rank()
           counter++;
         }
 
+      status_mask();
       row_zeroes = zeroes(true);
       col_zeroes = zeroes(false);
       max_row = utilities::max(row_zeroes);
       max_col = utilities::max(col_zeroes);
+      // std::cout << "max_row = " << max_row.first << std::endl << std::flush;
+      // std::cout << "max_col = " << max_col.first << std::endl << std::flush;
     }
   if (counter==size) result = true;
 
