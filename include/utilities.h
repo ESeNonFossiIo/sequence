@@ -49,8 +49,10 @@ namespace utilities
    * Return the minimum value in a std::vector and the position
    * of the first entry with the value of the minimum.
    */
-  std::pair<unsigned int, unsigned int>
-  min(std::vector<unsigned int> vec);
+  std::pair<unsigned int, int>
+  min(std::vector<unsigned int> vec,
+      unsigned int lower_bound = 0,
+      unsigned int upper_bound = 99);
 
   /**
    * Return the maximum value in a std::vector and the position

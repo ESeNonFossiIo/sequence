@@ -99,6 +99,9 @@ public:
   std::vector<unsigned int>
   zeroes(bool row=true);
 
+  std::vector<unsigned int>
+  zeroes_result(bool row=true);
+
   /**
    * TODO:
    */
@@ -109,13 +112,31 @@ public:
    * TODO:
    */
   void
+  initialize_result_mask();
+
+  /**
+   * TODO:
+   */
+  void
   status_mask();
+
+  /**
+   * TODO:
+   */
+  void
+  status_result_mask();
 
   /**
    * TODO:
    */
   bool
   check_rank();
+
+  /**
+   * TODO:
+   */
+  bool
+  check_result();
 
   /**
    *  Overload of the output operator <<.
@@ -138,6 +159,11 @@ private:
    *  Mask used to remove entries.
    */
   std::vector<std::vector<char> > mask;
+
+  /**
+   *  Mask used to remove entries.
+   */
+  std::vector<std::vector<char> > result_mask;
 
   /**
    *  Permutation on the rows.

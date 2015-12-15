@@ -72,5 +72,9 @@ SequenceProblem::solve()
   utilities::print_msg(" Solution: ");
   std::cout << problem_matrix;
   problem_matrix.status();
+
+  problem_matrix.check_result();
+  problem_matrix.status_result_mask();
+
   problem_matrix.sort();
 }

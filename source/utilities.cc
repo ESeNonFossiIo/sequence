@@ -89,21 +89,23 @@ utilities::print_map(std::map<T,S> map, unsigned int space)
             << std::flush;
 }
 
-std::pair<unsigned int, unsigned int>
-utilities::min(std::vector<unsigned int> vec)
+std::pair<unsigned int, int>
+utilities::min(std::vector<unsigned int> vec,
+               unsigned int lower_bound,
+               unsigned int upper_bound)
 {
   std::pair<unsigned int, unsigned int> min;
-  std::cout << "here" << std::flush<<std::endl;
+  // std::cout << "here" << std::flush<<std::endl;
   unsigned int counter = 0;
-  std::cout << "here" << std::flush<<std::endl;
-  min.first=*vec.begin();
-  std::cout << "here" << std::flush<<std::endl;
-  min.second=0;
-  std::cout << "here" << std::flush<<std::endl;
+  // std::cout << "here" << std::flush<<std::endl;
+  min.first=upper_bound;
+  // std::cout << "here" << std::flush<<std::endl;
+  min.second=-1;
+  // std::cout << "here" << std::flush<<std::endl;
   for (typename std::vector<unsigned int>::iterator it=vec.begin();
        it!=vec.end(); ++it)
     {
-      if (*it<min.first)
+      if (*it<min.first && *it >= lower_bound)
         {
           min.first=*it;
           min.second=counter;
