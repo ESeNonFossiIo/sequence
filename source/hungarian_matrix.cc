@@ -377,10 +377,10 @@ HMatrix::sort(bool row)
                 << row_init << "|";
       for (unsigned int c = 0; c< n_col; ++c)
         if ( result_mask[r][c] == 'O' )
-        { 
-          tot+=mat[r][c];
-          std::cout << std::setw(spaces) << mat[r][c] << "|";
-        }
+          {
+            tot+=mat[r][c];
+            std::cout << std::setw(spaces) << mat[r][c] << "|";
+          }
         else
           std::cout << std::setw(spaces) << " " << "|";
       std::cout << std::endl;
@@ -392,11 +392,13 @@ HMatrix::sort(bool row)
 
 
   utilities::print_msg( "max trace = " + std::to_string(tot) );
+  utilities::print_msg( "Original Permutation = ");
   std::cout << p_row;
   std::cout << p_col;
+
   for (unsigned int r = 0; r < n_row; ++r)
-      for (unsigned int c = 0; c< n_col; ++c)
-        if(result_mask[r][c] == 'O')
+    for (unsigned int c = 0; c< n_col; ++c)
+      if (result_mask[r][c] == 'O')
         {
           std::cout << "r = " << r << std::endl;
           std::cout << "c = " << c << std::endl;
@@ -405,32 +407,33 @@ HMatrix::sort(bool row)
           break;
         }
 
-          std::cout << std::endl;
-          for (unsigned int r = 0; r < n_row; ++r)
-            {
-              std::cout << row_init << "+" << "-----";
-              for (unsigned int c = 1; c < n_col; ++c)
-                std::cout << "+" << "-----";
-              std::cout << "+" << std::endl
-                        << row_init << "|";
-              for (unsigned int c = 0; c< n_col; ++c)
-                if ( r==c )
-                { 
-                  // tot+=mat[r][c];
-                  std::cout << std::setw(spaces) << res[r][c] << "|";
-                }
-                else
-                  std::cout << std::setw(spaces) << " " << "|";
-              std::cout << std::endl;
-            }
-          std::cout << row_init;
-          for (unsigned int c = 0; c < n_col; ++c)
-            std::cout << "+" << "-----";
-          std::cout << "+" << std::endl;
+  std::cout << std::endl;
+  for (unsigned int r = 0; r < n_row; ++r)
+    {
+      std::cout << row_init << "+" << "-----";
+      for (unsigned int c = 1; c < n_col; ++c)
+        std::cout << "+" << "-----";
+      std::cout << "+" << std::endl
+                << row_init << "|";
+      for (unsigned int c = 0; c< n_col; ++c)
+        if ( r==c )
+          {
+            // tot+=mat[r][c];
+            std::cout << std::setw(spaces) << res[r][c] << "|";
+          }
+        else
+          std::cout << std::setw(spaces) << " " << "|";
+      std::cout << std::endl;
+    }
+  std::cout << row_init;
+  for (unsigned int c = 0; c < n_col; ++c)
+    std::cout << "+" << "-----";
+  std::cout << "+" << std::endl;
 
-          utilities::print_msg( "max trace = " + std::to_string(tot) );
-          std::cout << p_row;
-          std::cout << p_col;
+  utilities::print_msg( "max trace = " + std::to_string(tot) );
+  utilities::print_msg( "Resulting = ");
+  std::cout << p_row;
+  std::cout << p_col;
 }
 
 bool
@@ -513,7 +516,7 @@ HMatrix::check_result()
                     result_mask[min_row.second][j]='.';
 
                   if (
-                      result_mask[j][i]!='O')
+                    result_mask[j][i]!='O')
                     result_mask[j][i]='.';
                 }
 

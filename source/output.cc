@@ -72,10 +72,12 @@ operator<<(std::ostream &os, LPermutation &p)
   // Length of each entries:
   unsigned int spaces = 3;
 
+  os << "Sequence:  ";
   os << "<";
   for (unsigned int i = 0; i<p.tot-1; ++i)
     os << std::setw(spaces) << p[i] <<  ",";
   os << std::setw(spaces) << p[p.tot-1] << ">" << std::endl;
+  os << "Labels:    ";
   os << "<";
   for (unsigned int i = 0; i<p.tot-1; ++i)
     os << std::setw(spaces) << p.from_int_to_char[p[i]] <<  ",";
