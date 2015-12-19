@@ -33,7 +33,7 @@ public:
   Matrix (const Matrix &m, type void_char = 0);
 
   /**
-   * TODO:
+   * 	Allow to change the defaul value for empty position with the char @p c.
    */
   void
   change_void_char(type c);
@@ -59,7 +59,9 @@ public:
   write (unsigned int i, unsigned int j, type c);
 
   /**
-   *  TODO:
+   *  Return the number of rows and coloumns of the matrix.
+   *  size().first is the number of rows and size().second is the number 
+   *  of coloumns.  
    */
   std::pair<unsigned int, unsigned int>
   size ();
@@ -95,13 +97,14 @@ public:
   get_max(bool row=true);
 
   /**
-   * Calulate the maximum value of the matrix;
+   *  Calulate the maximum value of the matrix;
    */
   unsigned int
   maximum_value();
 
   /**
-   * TODO:
+   *  Return the matrix that summed to @p mat returns a matrix which each entry 
+   *  is equals to @f maximum_value() .
    */
   void
   maximum_complement();
@@ -166,7 +169,9 @@ protected:
 
 private:
   /**
-   * TODO:
+   *  Typeset that represent the empty value of the matrix. 
+   *  For istance it could be 0 in the case of unsigned int or ' ' in the case 
+   *  of char.
    */
   type void_char;
 };

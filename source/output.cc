@@ -109,4 +109,5 @@ operator<<(std::ostream &os, Mask &mask)
   for (unsigned int c = 0; c < mask.get_size(); ++c)
     os << "+" << "---";
   os << "+" << std::endl;
+  return os;
 }
