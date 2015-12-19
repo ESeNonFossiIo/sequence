@@ -107,7 +107,7 @@ HMatrix::blank(bool row)
               out_result.push_back(i);
               break;
             }
-      print_sequence(out_result);
+      // print_sequence(out_result);
     }
   else
     {
@@ -118,7 +118,7 @@ HMatrix::blank(bool row)
               out_result.push_back(j);
               break;
             }
-      print_sequence(out_result);
+      // print_sequence(out_result);
     }
   return out_result;
 }
