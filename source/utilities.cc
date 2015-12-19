@@ -106,7 +106,7 @@ utilities::min(std::vector<unsigned int> vec,
        it!=vec.end(); ++it)
     {
       if (*it<min.first && *it >= lower_bound)
-        {
+        {  
           min.first=*it;
           min.second=counter;
         }

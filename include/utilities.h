@@ -13,7 +13,6 @@
 
 namespace utilities
 {
-
   /**
    *  Returns elapsed seconds past from the last call to timer rest.
    */
