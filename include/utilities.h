@@ -35,7 +35,7 @@ namespace utilities
    * @p space set the space reserved for each entry.
    */
   template <typename T>
-  void print_sequence(std::vector<T> vec, unsigned int space = 3);
+  void print(std::vector<T> vec, unsigned int space = 3);
 
   // /**
   //  * Uniform the output of @p maps.

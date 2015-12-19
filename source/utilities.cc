@@ -51,7 +51,7 @@ utilities::print_msg(std::vector<std::string> msg)
 
 template <typename T>
 void
-utilities::print_sequence(std::vector<T> vec, unsigned int space)
+utilities::print(std::vector<T> vec, unsigned int space)
 {
   std::cout << "=================================================="<< std::endl
             << std::flush;
@@ -147,6 +147,6 @@ utilities::size_row_and_col(std::vector<std::vector<unsigned int>> mat)
 }
 
 // explicit instantiation:
-template void utilities::print_sequence<unsigned int>(std::vector<unsigned int> vec, unsigned int space);
+template void utilities::print<unsigned int>(std::vector<unsigned int> vec, unsigned int space);
 // template void utilities::print_map<unsigned int,char>(std::map<unsigned int,char> map, unsigned int space);
 // template void utilities::print_map<char,unsigned int>(std::map<char,unsigned int> map, unsigned int space);

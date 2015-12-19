@@ -35,11 +35,11 @@ int main(int argc, char *argv[])
 
   auto min    = m.get_min();
   print_msg("Minimum per row:");
-  print_sequence<unsigned int>(min,    2);
+  print<unsigned int>(min,    2);
 
   min    = m.get_min(false);
   print_msg("Minimum per column:");
-  print_sequence<unsigned int>(min,    2);
+  print<unsigned int>(min,    2);
 
   print_msg("First step using row:");
   m.first_step();

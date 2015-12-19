@@ -107,7 +107,7 @@ HMatrix::blank(bool row)
               out_result.push_back(i);
               break;
             }
-      // print_sequence(out_result);
+      // print(out_result);
     }
   else
     {
@@ -118,7 +118,7 @@ HMatrix::blank(bool row)
               out_result.push_back(j);
               break;
             }
-      // print_sequence(out_result);
+      // print(out_result);
     }
   return out_result;
 }
@@ -160,9 +160,9 @@ HMatrix::second_step(bool row)
         }
 
       // std::cout << "-----------------" << std::endl;
-      // print_sequence(tmp);
-      // print_sequence(tmp_vec_col);
-      // print_sequence(blank_elements);
+      // print(tmp);
+      // print(tmp_vec_col);
+      // print(blank_elements);
 
       for (typename std::vector<unsigned int>::iterator it=tmp.begin();
            it!=tmp.end(); ++it)

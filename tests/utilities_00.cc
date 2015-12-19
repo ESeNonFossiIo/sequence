@@ -20,7 +20,7 @@ int main()
   test.push_back(0);
   test.push_back(1);
 
-  print_sequence<unsigned int>(test, 2);
+  print<unsigned int>(test, 2);
 
   std::pair<unsigned int, unsigned int> minimum, maximum;
   maximum = max(test);
