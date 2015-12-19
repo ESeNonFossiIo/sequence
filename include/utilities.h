@@ -59,6 +59,12 @@ namespace utilities
    */
   std::pair<unsigned int, unsigned int>
   max(std::vector<unsigned int> vec);
+
+  /**
+   * TODO:
+   */
+  std::pair<unsigned int, unsigned int>
+  size_row_and_col(std::vector<std::vector<unsigned int>> mat);
 }
 
 #endif

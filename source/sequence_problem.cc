@@ -55,26 +55,17 @@ SequenceProblem::solve()
   std::cout << problem_matrix;
 
   bool status = problem_matrix.check_rank();
-  problem_matrix.status_mask();
-  utilities::print_msg(" Status: " + std::to_string(status));
-
-
   while (!status)
     {
       problem_matrix.second_step();
-      // std::cout << problem_matrix;
-      // problem_matrix.status_mask();
       status = problem_matrix.check_rank();
-      // problem_matrix.status_mask();
-      // utilities::print_msg(" Status: " + std::to_string(status));
     }
-  //
+
   utilities::print_msg(" Solution: ");
-  // std::cout << problem_matrix;
-  // problem_matrix.status();
-
   problem_matrix.check_result();
-  problem_matrix.status_result_mask();
+  problem_matrix.solution();
+  
 
-  problem_matrix.sort();
+  // problem_matrix.sort();
+    // std::cout << problem_matrix;
 }

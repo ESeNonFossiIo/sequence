@@ -10,8 +10,9 @@
 #include "permutation.h"
 #include "utilities.h"
 
+template <typename type>
 std::ostream &
-operator<<(std::ostream &os, const Matrix &m)
+operator<<(std::ostream &os, const Matrix<type> &m)
 {
   // How to start each row:
   std::string row_init = "    ";
@@ -83,4 +84,29 @@ operator<<(std::ostream &os, LPermutation &p)
     os << std::setw(spaces) << p.from_int_to_char[p[i]] <<  ",";
   os << std::setw(spaces) << p.from_int_to_char[p[p.tot-1]] << ">" << std::endl;
   return os;
+}
+
+
+std::ostream &
+operator<<(std::ostream &os, Mask &mask)
+{
+  std::string row_init = "    ";
+  unsigned int spaces  = 2;
+  os << std::endl;
+  
+  for (unsigned int r = 0; r < mask.get_size(); ++r)
+    {
+      os << row_init << "+" << "---";
+      for (unsigned int c = 1; c < mask.get_size(); ++c)
+        os << "+" << "---";
+      os << "+" << std::endl
+                << row_init << "|";
+      for (unsigned int c = 0; c< mask.get_size(); ++c)
+        os << std::setw(spaces) << mask(r,c) << " |";
+      os << std::endl;
+    }
+  os << row_init;
+  for (unsigned int c = 0; c < mask.get_size(); ++c)
+    os << "+" << "---";
+  os << "+" << std::endl;
 }

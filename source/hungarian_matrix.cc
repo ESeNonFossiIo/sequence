@@ -102,7 +102,7 @@ HMatrix::blank(bool row)
     {
       for (unsigned int i = 0; i<size; ++i)
         for (unsigned int j = 0; j<size; ++j)
-          if (mask[i][j]==' ')
+          if (mask(i,j)==' ')
             {
               out_result.push_back(i);
               break;
@@ -113,7 +113,7 @@ HMatrix::blank(bool row)
     {
       for (unsigned int j = 0; j<size; ++j)
         for (unsigned int i = 0; i<size; ++i)
-          if (mask[i][j]==' ')
+          if (mask(i,j)==' ')
             {
               out_result.push_back(j);
               break;
@@ -131,7 +131,7 @@ HMatrix::second_step(bool row)
 
   for (unsigned int i = 0; i<size; ++i)
     for (unsigned int j = 0; j<size; ++j)
-      if (mask[i][j]==' ')
+      if (mask(i,j)==' ')
         elements.push_back(res[i][j]);
 
   if (elements.size())
@@ -152,7 +152,7 @@ HMatrix::second_step(bool row)
         {
           tmp_vec_col.clear();
           for (unsigned int j = 0; j<size; ++j)
-            if (mask[blank_elements[r]][j]==' ')
+            if (mask(blank_elements[r],j)==' ')
               tmp.push_back(j);
             else
               tmp_vec_col.push_back(j);
@@ -173,7 +173,7 @@ HMatrix::second_step(bool row)
       // std::cout << "(" << this_coloum << ")" << std::endl;
       for (unsigned int i = 0; i<size; ++i)
         {
-          if (mask[i][this_coloum]!=' ')
+          if (mask(i,this_coloum)!=' ')
             {
               unsigned int this_row=i;
               for (unsigned int j = 0; j<size; ++j)
@@ -233,132 +233,20 @@ HMatrix::get_max(bool row)
   return return_vector;
 }
 
-std::vector<unsigned int>
-HMatrix::zeroes(bool row)
+void
+HMatrix::diagonalize()
 {
-  std::vector<unsigned int> return_vector;
-  // std::cout << "size = " << size << std::flush << std::endl;
-  if (row)
-    for (unsigned int i=0; i<size; ++i)
-      {
-        return_vector.push_back(0);
-        for (unsigned int j=0; j<size; ++j)
-          if (mask[i][j]=='x')
-            return_vector[i]++;
-      }
-  else
-    for (unsigned int j=0; j<size; ++j)
-      {
-        return_vector.push_back(0);
-        for (unsigned int i=0; i<size; ++i)
-          if (mask[i][j]=='x')
-            return_vector[j]++;
-      }
-  return return_vector;
-}
-
-std::vector<unsigned int>
-HMatrix::zeroes_result(bool row)
-{
-  std::vector<unsigned int> return_vector;
-  // std::cout << "size = " << size << std::flush << std::endl;
-  if (row)
-    for (unsigned int i=0; i<size; ++i)
-      {
-        return_vector.push_back(0);
-        for (unsigned int j=0; j<size; ++j)
-          if (result_mask[i][j]=='x')
-            return_vector[i]++;
-      }
-  else
-    for (unsigned int j=0; j<size; ++j)
-      {
-        return_vector.push_back(0);
-        for (unsigned int i=0; i<size; ++i)
-          if (result_mask[i][j]=='x')
-            return_vector[j]++;
-      }
-  return return_vector;
+  for (unsigned int r = 0; r < n_row; ++r)
+    for (unsigned int c = 0; c< n_col; ++c)
+      if (result_mask(r,c) == 'O')
+        {
+          switch_elements(c,r,false);
+          break;
+        }
 }
 
 void
-HMatrix::initialize_mask()
-{
-  mask.resize(size);
-  for (unsigned int i = 0; i<size; ++i)
-    mask[i].resize(size);
-
-  for (unsigned int i = 0; i<size; ++i)
-    for (unsigned int j = 0; j<size; ++j)
-      if (i<size && j<size  && res[i][j]!=0)
-        mask[i][j]=' ';
-      else
-        mask[i][j]='x';
-}
-
-void
-HMatrix::initialize_result_mask()
-{
-  result_mask.resize(size);
-  for (unsigned int i = 0; i<size; ++i)
-    result_mask[i].resize(size);
-
-  for (unsigned int i = 0; i<size; ++i)
-    for (unsigned int j = 0; j<size; ++j)
-      if (i<size && j<size  && res[i][j]!=0)
-        result_mask[i][j]=' ';
-      else
-        result_mask[i][j]='x';
-}
-
-void
-HMatrix::status_mask()
-{
-  std::string row_init = "    ";
-  unsigned int spaces  = 2;
-  std::cout << std::endl;
-  for (unsigned int r = 0; r < size; ++r)
-    {
-      std::cout << row_init << "+" << "---";
-      for (unsigned int c = 1; c < size; ++c)
-        std::cout << "+" << "---";
-      std::cout << "+" << std::endl
-                << row_init << "|";
-      for (unsigned int c = 0; c< size; ++c)
-        std::cout << std::setw(spaces) << mask[r][c] << " |";
-      std::cout << std::endl;
-    }
-  std::cout << row_init;
-  for (unsigned int c = 0; c < size; ++c)
-    std::cout << "+" << "---";
-  std::cout << "+" << std::endl;
-}
-
-void
-HMatrix::status_result_mask()
-{
-  std::string row_init = "    ";
-  unsigned int spaces  = 2;
-  std::cout << std::endl;
-  for (unsigned int r = 0; r < size; ++r)
-    {
-      std::cout << row_init << "+" << "---";
-      for (unsigned int c = 1; c < size; ++c)
-        std::cout << "+" << "---";
-      std::cout << "+" << std::endl
-                << row_init << "|";
-      for (unsigned int c = 0; c< size; ++c)
-        std::cout << std::setw(spaces) << result_mask[r][c] << " |";
-      std::cout << std::endl;
-    }
-  std::cout << row_init;
-  for (unsigned int c = 0; c < size; ++c)
-    std::cout << "+" << "---";
-  std::cout << "+" << std::endl;
-}
-
-void
-HMatrix::sort(bool row)
+HMatrix::solution()
 {
   // TODO:
   // How to start each row:
@@ -366,47 +254,9 @@ HMatrix::sort(bool row)
   // Length of each coloum:
   unsigned int spaces  = 5;
   unsigned int tot  = 0;
-
-  std::cout << std::endl;
-  for (unsigned int r = 0; r < n_row; ++r)
-    {
-      std::cout << row_init << "+" << "-----";
-      for (unsigned int c = 1; c < n_col; ++c)
-        std::cout << "+" << "-----";
-      std::cout << "+" << std::endl
-                << row_init << "|";
-      for (unsigned int c = 0; c< n_col; ++c)
-        if ( result_mask[r][c] == 'O' )
-          {
-            tot+=mat[r][c];
-            std::cout << std::setw(spaces) << mat[r][c] << "|";
-          }
-        else
-          std::cout << std::setw(spaces) << " " << "|";
-      std::cout << std::endl;
-    }
-  std::cout << row_init;
-  for (unsigned int c = 0; c < n_col; ++c)
-    std::cout << "+" << "-----";
-  std::cout << "+" << std::endl;
-
-
-  utilities::print_msg( "max trace = " + std::to_string(tot) );
-  utilities::print_msg( "Original Permutation = ");
-  std::cout << p_row;
-  std::cout << p_col;
-
-  for (unsigned int r = 0; r < n_row; ++r)
-    for (unsigned int c = 0; c< n_col; ++c)
-      if (result_mask[r][c] == 'O')
-        {
-          std::cout << "r = " << r << std::endl;
-          std::cout << "c = " << c << std::endl;
-          std::cout << "===== "<< std::endl;
-          switch_elements(c,r,false);
-          break;
-        }
-
+  
+  diagonalize();
+  
   std::cout << std::endl;
   for (unsigned int r = 0; r < n_row; ++r)
     {
@@ -429,7 +279,7 @@ HMatrix::sort(bool row)
   for (unsigned int c = 0; c < n_col; ++c)
     std::cout << "+" << "-----";
   std::cout << "+" << std::endl;
-
+  
   utilities::print_msg( "max trace = " + std::to_string(tot) );
   utilities::print_msg( "Resulting = ");
   std::cout << p_row;
@@ -442,10 +292,10 @@ HMatrix::check_rank()
   bool result = false;
   unsigned int counter     = 0;
 
-  initialize_mask();
+  mask.initialize(res);
 
-  auto row_zeroes = zeroes(true);
-  auto col_zeroes = zeroes(false);
+  auto row_zeroes = mask.zeroes(true);
+  auto col_zeroes = mask.zeroes(false);
   auto max_row = utilities::max(row_zeroes);
   auto max_col = utilities::max(col_zeroes);
 
@@ -454,25 +304,25 @@ HMatrix::check_rank()
       if ( max_row.first <= max_col.first )
         {
           for (unsigned int i = 0; i<size; ++i)
-            if (mask[i][max_col.second]!='-')
-              mask[i][max_col.second]='|';
+            if (mask(i,max_col.second)!='-') // Make mask class
+              mask(i,max_col.second)='|';
             else
-              mask[i][max_col.second]='+';
+              mask(i,max_col.second)='+';
           counter++;
         }
       else
         {
           for (unsigned int i = 0; i<size; ++i)
-            if (mask[max_row.second][i]!='|')
-              mask[max_row.second][i]='-';
+            if (mask(max_row.second,i)!='|')
+              mask(max_row.second,i)='-';
             else
-              mask[max_row.second][i]='+';
+              mask(max_row.second,i)='+';
           counter++;
         }
 
       // status_mask();
-      row_zeroes = zeroes(true);
-      col_zeroes = zeroes(false);
+      row_zeroes = mask.zeroes(true);
+      col_zeroes = mask.zeroes(false);
       max_row = utilities::max(row_zeroes);
       max_col = utilities::max(col_zeroes);
       // std::cout << "max_row = " << max_row.first << std::endl << std::flush;
@@ -489,55 +339,49 @@ HMatrix::check_result()
 {
   bool result = false;
 
+  result_mask.initialize(res);
 
-  initialize_result_mask();
-
-  auto row_zeroes = zeroes_result(true);
-  auto col_zeroes = zeroes_result(false);
+  auto row_zeroes = result_mask.zeroes(true);
+  auto col_zeroes = result_mask.zeroes(false);
   auto min_row = utilities::min(row_zeroes);
   auto min_col = utilities::min(col_zeroes);
   auto max_row = utilities::max(row_zeroes);
   auto max_col = utilities::max(col_zeroes);
-  utilities::print_sequence(row_zeroes);
-  utilities::print_sequence(col_zeroes);
+
   while (min_row.second!=-1)
     {
       unsigned int counter = 0;
       for (unsigned int i = 0; i<size; ++i)
         {
-          if (result_mask[min_row.second][i]=='x')
+          if (result_mask(min_row.second,i)=='x')
             {
-              // std::cout << "----=====>>"<< min_row.second << "," << i<< std::endl;
-              result_mask[min_row.second][i]='O';
-              // std::cout << "----=====>>"<< result_mask[min_row.second][i] << std::endl;
+              result_mask(min_row.second,i)='O';
               for (unsigned int j = 0; j<size; ++j)
                 {
-                  if (result_mask[min_row.second][j]!='O')
-                    result_mask[min_row.second][j]='.';
+                  if (result_mask(min_row.second,j)!='O')
+                    result_mask(min_row.second,j)='.';
 
                   if (
-                    result_mask[j][i]!='O')
-                    result_mask[j][i]='.';
+                    result_mask(j,i)!='O')
+                    result_mask(j,i)='.';
                 }
 
-              // std::cout << "----=====>>"<< result_mask[min_row.second][i] << std::endl;
-              // status_mask();
-              row_zeroes = zeroes_result(true);
-              col_zeroes = zeroes_result(false);
+              row_zeroes = result_mask.zeroes(true);
+              col_zeroes = result_mask.zeroes(false);
               min_row = utilities::min(row_zeroes, 1);
               min_col = utilities::min(col_zeroes, 1);
               max_row = utilities::max(row_zeroes);
               max_col = utilities::max(col_zeroes);
-              // utilities::print_sequence(row_zeroes);
-              // utilities::print_sequence(col_zeroes);
-              // std::cout << "min_row = " << min_row.first << std::endl << std::flush;
-              // std::cout << "min_col = " << min_col.first << std::endl << std::flush;
-              // std::cout << "max_row = " << max_row.first << std::endl << std::flush;
-              // std::cout << "max_col = " << max_col.first << std::endl << std::flush;
               i=size;
-              // status_result_mask();
             }
         }
     }
   return result;
+}
+
+unsigned int
+HMatrix::
+status(unsigned int i, unsigned int j)
+{
+  return res[i][j];
 }

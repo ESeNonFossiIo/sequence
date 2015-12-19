@@ -106,7 +106,7 @@ utilities::min(std::vector<unsigned int> vec,
        it!=vec.end(); ++it)
     {
       if (*it<min.first && *it >= lower_bound)
-        {  
+        {
           min.first=*it;
           min.second=counter;
         }
@@ -135,6 +135,15 @@ utilities::max(std::vector<unsigned int> vec)
     }
   // std::cout << "====> counter ===> " << counter << std::endl << std::flush;
   return max;
+}
+
+std::pair<unsigned int, unsigned int>
+utilities::size_row_and_col(std::vector<std::vector<unsigned int>> mat)
+{
+  std::pair<unsigned int, unsigned int> return_pair;
+  return_pair.first=mat.size();
+  return_pair.second=mat[0].size();  
+  return return_pair;
 }
 
 // explicit instantiation:

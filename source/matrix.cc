@@ -16,21 +16,28 @@
 
 using namespace utilities;
 
-Matrix::Matrix(unsigned int rows, unsigned int cols)
+template <typename type>
+Matrix<type>::
+Matrix(unsigned int rows, unsigned int cols, type void_char)
   :
   n_row(rows),
-  n_col(cols)
+  n_col(cols),
+  void_char(void_char)
 {
   mat.resize(rows);
   for (unsigned int i = 0; i<rows; ++i)
     mat[i].resize(cols, 0);
 }
 
-Matrix::Matrix(unsigned int rows, unsigned int cols,
-               std::vector<std::vector<unsigned int> > m)
+template <typename type>
+Matrix<type>::
+Matrix(unsigned int rows, unsigned int cols,
+       std::vector<std::vector<type> > m,
+       type void_char)
   :
   n_row(rows),
-  n_col(cols)
+  n_col(cols),
+  void_char(void_char)
 {
   mat.resize(rows);
   for (unsigned int i = 0; i<rows; ++i)
@@ -40,15 +47,28 @@ Matrix::Matrix(unsigned int rows, unsigned int cols,
       mat[i][j]=m[i][j];
 }
 
-Matrix::Matrix(const Matrix &m)
+template <typename type>
+Matrix<type>::
+Matrix(const Matrix &m, type void_char)
   :
   n_row(m.n_row),
   n_col(m.n_col),
-  mat(m.mat)
+  mat(m.mat),
+  void_char(void_char)
 {}
 
+template <typename type>
 void
-Matrix::add_one(unsigned int i, unsigned int j)
+Matrix<type>::
+change_void_char(type c)
+{
+  void_char = c;
+}
+
+template <typename type>
+void
+Matrix<type>::
+resize(unsigned int i, unsigned int j)
 {
   if (i>=n_row)
     {
@@ -60,13 +80,43 @@ Matrix::add_one(unsigned int i, unsigned int j)
 
   for (unsigned int h = 0; h<n_row; ++h)
     {
-      mat[h].resize(n_col, 0);
+      mat[h].resize(n_col, void_char);
     }
+}
+
+template <typename type>
+std::pair<unsigned int, unsigned int>
+Matrix<type>::
+size()
+{
+  std::pair<unsigned int, unsigned int> return_pair;
+  return_pair.first = n_row;
+  return_pair.second = n_col;
+  return return_pair;
+}
+
+template <typename type>
+void
+Matrix<type>::
+add_one(unsigned int i, unsigned int j)
+{
+  resize(i,j);
   mat[i][j]++;
 }
 
+template <typename type>
+void
+Matrix<type>::
+write(unsigned int i, unsigned int j, type c)
+{
+  resize(i,j);
+  mat[i][j] = c;
+}
+
+template <typename type>
 std::vector<unsigned int>
-Matrix::zeroes(bool row)
+Matrix<type>::
+zeroes(bool row)
 {
   std::vector<unsigned int> return_vector;
   if (row)
@@ -88,8 +138,10 @@ Matrix::zeroes(bool row)
   return return_vector;
 }
 
+template <typename type>
 std::vector<unsigned int>
-Matrix::get_min(bool row)
+Matrix<type>::
+get_min(bool row)
 {
   std::vector<unsigned int> return_vector;
   if (row)
@@ -111,8 +163,10 @@ Matrix::get_min(bool row)
   return return_vector;
 }
 
+template <typename type>
 std::vector<unsigned int>
-Matrix::get_max(bool row)
+Matrix<type>::
+get_max(bool row)
 {
   std::vector<unsigned int> return_vector;
   if (row)
@@ -134,8 +188,10 @@ Matrix::get_max(bool row)
   return return_vector;
 }
 
+template <typename type>
 unsigned int
-Matrix::maximum_value()
+Matrix<type>::
+maximum_value()
 {
   unsigned int maximum = mat[0][0];
   for (unsigned int i=0; i<n_row; ++i)
@@ -145,8 +201,10 @@ Matrix::maximum_value()
   return maximum;
 }
 
+template <typename type>
 void
-Matrix::maximum_complement()
+Matrix<type>::
+maximum_complement()
 {
   unsigned int maximum = maximum_value();
   for (unsigned int i=0; i<n_row; ++i)
@@ -154,8 +212,10 @@ Matrix::maximum_complement()
       mat[i][j] = maximum - mat[i][j];
 }
 
+template <typename type>
 unsigned int
-Matrix::trace ()
+Matrix<type>::
+trace ()
 {
   unsigned int result=0;
   unsigned int max_minor = ( n_col>n_row ? n_row : n_col );
@@ -166,8 +226,10 @@ Matrix::trace ()
   return result;
 }
 
+template <typename type>
 void
-Matrix::status()
+Matrix<type>::
+status()
 {
   std::vector<std::string> msg;
   msg.push_back(" Number of Rows:      "+std::to_string(n_row));
@@ -176,11 +238,24 @@ Matrix::status()
   print_msg(msg);
 }
 
-Matrix &
-Matrix::operator=(Matrix other)
+template <typename type>
+Matrix<type> &
+Matrix<type>::
+operator=(Matrix other)
 {
   this->n_row=other.n_row;
   this->n_col=other.n_col;
   this->mat=other.mat;
   return *this;
 }
+
+template <typename type>
+type &
+Matrix<type>::
+  operator()(unsigned int i, unsigned int j)
+{
+  return mat[i][j];
+};
+
+template class Matrix<unsigned int>;
+template class Matrix<char>;

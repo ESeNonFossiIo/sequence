@@ -45,7 +45,7 @@ public:
    *   Permutation p;
    *   ...
    *   std::cout << p;
-   *  @endcode{.cpp}
+   *  @endcode
    */
   friend std::ostream &operator<< (std::ostream &os, Permutation &dt);
 
@@ -92,7 +92,7 @@ public:
    *   LPermutation p;
    *   ...
    *   std::cout << p;
-   *  @endcode{.cpp}
+   *  @endcode
    */
   friend std::ostream &operator<< (std::ostream &os,
                                    LPermutation &dt);

@@ -5,13 +5,15 @@
 #include <vector>
 #include <iostream>
 #include "permutation.h"
+#include "mask.h"
 #include "matrix.h"
+
 
 /**
  *  Hungarian Matrix Class stores data in matrix form to solve
  *  a maximize trace problem.
  */
-class HMatrix : public Matrix
+class HMatrix : public Matrix<unsigned int>
 {
 public:
   /**
@@ -42,6 +44,18 @@ public:
   void
   sort(bool row=true);
 
+  /**
+   *  TODO:
+   */
+  void
+  solution();
+
+  /**
+   *  TODO:
+   */
+  void
+  diagonalize();
+  
   /**
    *  TODO:
    */
@@ -89,43 +103,11 @@ public:
   get_max(bool row=true);
 
   /**
-   * Calulate the numeber of 'x' in each row (coloumn) of mask
-   * matrix.
-   * If @p row is true it will be made using rows, otherwise
-   * coloumns.
-   * The result is a vector that indicates the number of 'x'
-   * in each row (coloumn).
+   *  Return the element in postion @p i, @p j.
    */
-  std::vector<unsigned int>
-  zeroes(bool row=true);
-
-  std::vector<unsigned int>
-  zeroes_result(bool row=true);
-
-  /**
-   * TODO:
-   */
-  void
-  initialize_mask();
-
-  /**
-   * TODO:
-   */
-  void
-  initialize_result_mask();
-
-  /**
-   * TODO:
-   */
-  void
-  status_mask();
-
-  /**
-   * TODO:
-   */
-  void
-  status_result_mask();
-
+  unsigned int
+  status(unsigned int i, unsigned int j);
+  
   /**
    * TODO:
    */
@@ -145,25 +127,26 @@ public:
    *   Matrix p;
    *   ...
    *   std::cout << p;
-   *  @endcode{.cpp}
+   *  @endcode
    */
   friend std::ostream &operator<< (std::ostream &os, const HMatrix &dt);
 
+protected:
+  /**
+   *  Mask used to remove entries.
+   */
+  Mask mask;
+
+  /**
+   *  Mask used to remove entries.
+   */
+  Mask result_mask;
+  
 private:
   /**
    *  Resulting matrix.
    */
   std::vector<std::vector<unsigned int> > res;
-
-  /**
-   *  Mask used to remove entries.
-   */
-  std::vector<std::vector<char> > mask;
-
-  /**
-   *  Mask used to remove entries.
-   */
-  std::vector<std::vector<char> > result_mask;
 
   /**
    *  Permutation on the rows.
