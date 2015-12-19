@@ -37,12 +37,12 @@ namespace utilities
   template <typename T>
   void print_sequence(std::vector<T> vec, unsigned int space = 3);
 
-  /**
-   * Uniform the output of @p maps.
-   * @p space set the space reserved for each entry.
-   */
-  template <typename T,typename S>
-  void print_map(std::map<T,S> map, unsigned int space = 3);
+  // /**
+  //  * Uniform the output of @p maps.
+  //  * @p space set the space reserved for each entry.
+  //  */
+  // template <typename T,typename S>
+  // void print_map(std::map<T,S> map, unsigned int space = 3);
 
   /**
    * Return the minimum value in a std::vector and the position

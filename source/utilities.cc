@@ -68,26 +68,26 @@ utilities::print_sequence(std::vector<T> vec, unsigned int space)
   std::cout << "=================================================="<< std::endl
             << std::flush;
 }
-
-template <typename T,typename S>
-void
-utilities::print_map(std::map<T,S> map, unsigned int space)
-{
-  std::cout << "=================================================="<< std::endl
-            << std::flush;
-
-  typename std::map<T,S>::iterator it_end=map.end();
-  it_end--;
-
-  std::cout << " < ";
-  for (typename std::map<T,S>::iterator it=map.begin();
-       it!=it_end; ++it)
-    std::cout << std::setw(space) << it->first <<  ",";
-  std::cout << std::setw(space) << it_end->first << " > " << std::endl
-            << std::flush;
-  std::cout << "=================================================="<< std::endl
-            << std::flush;
-}
+// 
+// template <typename T,typename S>
+// void
+// utilities::print_map(std::map<T,S> map, unsigned int space)
+// {
+//   std::cout << "=================================================="<< std::endl
+//             << std::flush;
+// 
+//   typename std::map<T,S>::iterator it_end=map.end();
+//   it_end--;
+// 
+//   std::cout << " < ";
+//   for (typename std::map<T,S>::iterator it=map.begin();
+//        it!=it_end; ++it)
+//     std::cout << std::setw(space) << it->first <<  ",";
+//   std::cout << std::setw(space) << it_end->first << " > " << std::endl
+//             << std::flush;
+//   std::cout << "=================================================="<< std::endl
+//             << std::flush;
+// }
 
 std::pair<unsigned int, int>
 utilities::min(std::vector<unsigned int> vec,
@@ -148,5 +148,5 @@ utilities::size_row_and_col(std::vector<std::vector<unsigned int>> mat)
 
 // explicit instantiation:
 template void utilities::print_sequence<unsigned int>(std::vector<unsigned int> vec, unsigned int space);
-template void utilities::print_map<unsigned int,char>(std::map<unsigned int,char> map, unsigned int space);
-template void utilities::print_map<char,unsigned int>(std::map<char,unsigned int> map, unsigned int space);
+// template void utilities::print_map<unsigned int,char>(std::map<unsigned int,char> map, unsigned int space);
+// template void utilities::print_map<char,unsigned int>(std::map<char,unsigned int> map, unsigned int space);
